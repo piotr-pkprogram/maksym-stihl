@@ -133,7 +133,7 @@ export default {
   @apply grid grid-flow-col grid-cols-3/4 fixed top-0 z-20 w-full md:hidden bg-white max-h-36 min-h-58.5 border-solid border-black border-b-2;
 
   &__logo {
-    width: 80px;
+    @apply h-15;
 
     &-link {
       @apply w-max flex justify-center p-2 pl-0;
@@ -153,10 +153,10 @@ export default {
 .phone-menu {
   @apply fixed right-0 bg-white h-full border-solid border-black border-l-2 transform translate-x-full hidden z-20;
   width: 163px;
-  top: 3.75rem;
+  top: 4.85rem;
 
   &__element {
-    @apply p-3 text-center border-t border-solid border-black;
+    @apply p-3 text-center border-t border-solid border-black text-lg font-semibold hover:text-main-2 transition-colors;
 
     &:first-child {
       @apply border-0;

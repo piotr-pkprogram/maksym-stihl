@@ -26,12 +26,12 @@ export default {
     },
     to: {
       type: String,
-      required: false,
+      required: true,
     },
     classes: {
       type: String,
       required: false,
-      default: "oragne-btn",
+      default: "orange-btn",
     },
   },
 };

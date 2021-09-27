@@ -11,7 +11,8 @@ module.exports = {
     important: true,
     theme: {
         screens: {
-            xs: '303px',
+            xxs: '303px',
+            xs: "475px",
             sm: "640px",
             md: "783px",
             lg: "1024px",
@@ -63,6 +64,7 @@ module.exports = {
             14: "3.5rem",
             15: "3.75rem",
             16: "4rem",
+            18: "4.5rem",
             20: "5rem",
             24: "6rem",
             28: "7rem",

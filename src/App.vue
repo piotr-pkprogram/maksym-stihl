@@ -116,6 +116,6 @@ body {
 }
 
 main {
-  @apply mt-15 md:mt-0;
+  @apply mt-18 md:mt-0;
 }
 </style>

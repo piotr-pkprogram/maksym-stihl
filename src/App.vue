@@ -2,9 +2,13 @@
   <the-header></the-header>
   <the-header type="phone"></the-header>
   <main>
-    <router-view />
+    <router-view v-slot="slotProps">
+      <transition name="route" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
   </main>
-  <the-footer></the-footer>
+  <the-footer :classes="footerClasses"></the-footer>
   <teleport to="body">
     <button-top></button-top>
     <agree-widget></agree-widget>
@@ -24,6 +28,11 @@ export default {
     TheFooter,
     ButtonTop,
     AgreeWidget,
+  },
+  computed: {
+    footerClasses() {
+      return location.pathname == "/" ? "footer pt-24" : "footer";
+    },
   },
   methods: {
     menuAnimation() {
@@ -91,6 +100,11 @@ export default {
 </script>
 
 <style lang="scss">
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
 body {
   @apply relative;
 }
@@ -117,5 +131,29 @@ body {
 
 main {
   @apply mt-18 md:mt-0;
+}
+
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.route-enter-active {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.route-leave-active {
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+}
+
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

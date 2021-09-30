@@ -90,10 +90,128 @@
       >Więcej o Nas</base-button
     >
   </section>
+  <section class="how-can-we-help-you">
+    <h2 class="how-can-we-help-you__title">Jak możemy Ci pomóc?</h2>
+    <div class="how-can-we-help-you__services-container">
+      <div class="how-can-we-help-you__col">
+        <span class="how-can-we-help-you__subtitle">Serwis naprawczy</span>
+        <p class="how-can-we-help-you__desc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est enim ad eum
+          accusamus excepturi. Iste aut eaque maxime sit beatae?
+        </p>
+        <base-button
+          classes="orange-btn rounded-full self-end"
+          type="router-link"
+          to="/serwis-naprawczy"
+          >Zobacz ofertę</base-button
+        >
+      </div>
+      <div class="how-can-we-help-you__col lg:justify-self-start">
+        <span class="how-can-we-help-you__subtitle">Narzędzia i inne produkty STIHL</span>
+        <p class="how-can-we-help-you__desc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est enim ad eum
+          accusamus excepturi. Iste aut eaque maxime sit beatae?
+        </p>
+        <base-button
+          classes="orange-btn rounded-full self-end"
+          type="router-link"
+          to="/produkty"
+          >Zobacz produkty</base-button
+        >
+      </div>
+    </div>
+  </section>
+  <section class="our-products">
+    <h2 class="our-products__title">Zobacz nasze produkty</h2>
+    <div class="our-products__slider-container">
+      <base-slider
+        classes="our-products__slider"
+        :slides="prodactsCategories"
+      ></base-slider>
+    </div>
+  </section>
+  <section class="about-us-group">
+    <section class="about-us">
+      <h2 class="about-us__title">O Nas</h2>
+      <img
+        src="../assets/img/maksym-stihl.jpg"
+        alt="Obsługa Maksym Stihl"
+        class="about-us__main-img"
+      />
+      <div class="about-us__desc-container">
+        <p class="about-us__desc">
+          Działamy jako autoryzowany dealer niemieckiej firmy STIHL, prowadzimy sprzedaż i
+          profesjonalny serwis sprzedawanych urządzeń marki STIHL i VIKING.
+        </p>
+        <p class="self-end about-us__desc">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quis
+          accusantium nisi consequuntur dicta vero harum recusandae rerum tempora
+          voluptatibus fugiat, quod minima et suscipit nulla iste in repudiandae dolore
+          hic accusamus corrupti labore ab quibusdam? Inventore, rem beatae necessitatibus
+          maxime dolore fuga iste molestias deleniti voluptatibus, consequuntur nulla
+          quidem itaque! Earum consequatur eum a quod! Est esse a sint voluptatibus,
+          dolorum iste beatae voluptas soluta cupiditate eos dolor neque officia aperiam,
+          quam veniam quisquam voluptatum ex molestiae amet incidunt consequuntur minus ab
+          quo? Aliquam quasi distinctio molestiae, aliquid aperiam voluptate! Quisquam
+          quam aliquam nemo eum nobis cum. Vero, suscipit?
+        </p>
+      </div>
+    </section>
+    <section class="our-brands">
+      <h2 class="our-brands__title">Nasze Marki</h2>
+      <div class="our-brands__logos">
+        <div class="our-brands__logos-row">
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/stihl.png"
+            alt="Stihl"
+          />
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/viking.png"
+            alt="Viking"
+          />
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/fiskars.png"
+            alt="Fiskars"
+          />
+        </div>
+        <div class="our-brands__logos-row">
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/briggs_and_stratton.png"
+            alt="Briggs & Stratton"
+          />
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/endress.png"
+            alt="Endress"
+          />
+          <img
+            class="our-brands__brand"
+            src="../assets/img/brands/oregon.png"
+            alt="Oregon"
+          />
+        </div>
+      </div>
+    </section>
+  </section>
 </template>
 
 <script>
-export default {};
+import BaseSlider from "../components/main-components/slider/Slider.vue";
+
+export default {
+  components: {
+    BaseSlider,
+  },
+  data() {
+    return {
+      productsCategories: this.$store.getters.productsCategories,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -154,6 +272,97 @@ export default {};
   &__arrow {
     width: 25px;
     height: 45px;
+  }
+}
+
+.how-can-we-help-you {
+  @apply bg-F2 grid gap-10 p-5 pb-10;
+
+  &__title {
+    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center;
+  }
+
+  &__services-container {
+    @apply w-full grid justify-items-center lg:justify-items-end lg:grid-flow-col gap-10 sm:gap-20;
+  }
+
+  &__col {
+    @apply bg-white rounded-2xl gap-12 grid justify-items-center p-4 text-center;
+
+    @media (min-width: 640px) {
+      width: 414px;
+      height: 394px;
+    }
+  }
+
+  &__subtitle {
+    @apply text-xl font-medium max-w-52;
+
+    @media (min-width: 640px) {
+      height: 108px;
+    }
+  }
+
+  &__desc {
+    @apply max-w-72;
+  }
+}
+
+.our-products {
+  @apply p-4 grid gap-4 justify-items-center pb-15 pt-15;
+
+  &__title {
+    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center;
+  }
+
+  &__slider-container {
+    @apply rounded-2xl p-10 grid w-full items-center;
+    background-color: #e0e0e0;
+    height: 381px;
+    max-width: 1277px;
+  }
+}
+
+.about-us-group {
+  @apply bg-no-repeat w-full grid p-1 sm:px-12 h-full gap-7 bg-cover justify-items-center;
+  background-image: url(../assets/img/scinanie-drewna-pilarka-stihl.jpg);
+  background-position: center;
+}
+
+.about-us {
+  @apply bg-white rounded-t-3xl grid justify-items-center p-4 gap-4 w-full pb-15;
+  max-width: 1470px;
+  box-shadow: 0px 0px 100px 5px rgba(255, 97, 0, 0.27);
+  transform: translateY(57.5px);
+  &__title {
+    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center col-1/2;
+  }
+
+  &__img {
+    @apply col-1 justify-self-end;
+  }
+
+  &__desc-container {
+    @apply col-2 row-start-2 grid gap-y-4;
+    max-width: 682px;
+  }
+}
+
+.our-brands {
+  @apply bg-white rounded-b-3xl grid justify-items-center p-4 gap-4 w-full pb-15;
+  max-width: 1470px;
+  box-shadow: 0px 0px 100px 5px rgba(255, 97, 0, 0.27);
+  transform: translateY(57.5px);
+  &__title {
+    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center;
+  }
+
+  &__logos {
+    @apply grid;
+  }
+
+  &__logos-row {
+    @apply grid grid-flow-col w-full gap-2 items-center;
   }
 }
 </style>

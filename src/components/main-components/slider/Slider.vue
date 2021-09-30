@@ -1,74 +1,31 @@
 <template>
-  <swiper
-    :class="classes"
-    :slides-per-view="1"
-    :space-between="0"
-    navigation
-    :pagination="{ clickable: true }"
-    effect="fade"
+  <vueper-slides
+    autoplay
+    :pause-on-hover="pauseOnHover"
+    @autoplay-pause="internalAutoPlaying = false"
+    @autoplay-resume="internalAutoPlaying = true"
   >
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide1.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide2.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide3.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide4.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide5.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-    <swiper-slide>
-        <img
-          src="../../../assets/img/webp/crossfit-box/box-slide6.webp"
-          alt=""
-          class="slider__img"
-        />
-    </swiper-slide>
-  </swiper>
+    <vueper-slide
+      v-for="slide in slides"
+      :key="slide.id"
+      :image="slide.srcImg"
+      :content="slide.category"
+    />
+  </vueper-slides>
 </template>
 
 <script>
-import SwiperCore, { Navigation, Pagination, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/vue";
-
-import "swiper/swiper.scss";
-import "swiper/components/navigation/navigation.scss";
-import "swiper/components/pagination/pagination.scss";
-
-SwiperCore.use([Navigation, Pagination, A11y]);
+import { VueperSlides, VueperSlide } from "vueperslides";
+import "vueperslides/dist/vueperslides.css";
 
 export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
+  components: { VueperSlides, VueperSlide },
   props: {
     classes: String,
+    slides: {
+      type: Array,
+      required: true,
+    },
   },
 };
 </script>

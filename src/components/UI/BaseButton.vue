@@ -44,11 +44,11 @@ a {
 }
 
 .orange-btn {
-  @apply rounded-lg text-white min-w-20 block;
+  @apply rounded-lg text-white min-w-20 block h-min;
   background: rgba(255, 97, 0, 87);
 }
 
 .light-btn {
-  @apply rounded-lg text-main font-semibold min-w-20 block border-main border-2 border-solid;
+  @apply rounded-lg text-main font-semibold min-w-20 block border-main border-2 border-solid h-min;
 }
 </style>

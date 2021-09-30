@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer :class="classes">
     <div class="footer__main-informations">
       <footer-block title="Dane Kontaktowe:">
         <span class="footer__tel">Tel. 606 612 737</span>
@@ -50,6 +50,13 @@ import FooterBlock from "../UI/FooterBlock.vue";
 export default {
   components: {
     FooterBlock,
+  },
+  props: {
+    classes: {
+      type: String,
+      required: false,
+      default: "footer",
+    },
   },
 };
 </script>

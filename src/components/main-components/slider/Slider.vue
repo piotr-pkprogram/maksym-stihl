@@ -9,6 +9,7 @@
     :dgragging-distance="200"
     lazy
     lazy-load-on-drag
+    :breakpoints="breakpoints"
   >
     <vueper-slide
       v-for="slide in slides"
@@ -16,6 +17,7 @@
       :image="slide.src"
       :content="slide.category"
       class="rounded-3xl"
+      :link="slide.link"
     />
 
     <template #arrow-left>
@@ -30,7 +32,7 @@
 
 <script>
 import { VueperSlides, VueperSlide } from "vueperslides";
-import { v4 as uuidv4 } from "uuid";
+import productsCategories from "./slides";
 import "vueperslides/dist/vueperslides.css";
 
 export default {
@@ -40,196 +42,17 @@ export default {
   },
   data() {
     return {
-      slides: [
-        {
-          id: uuidv4(),
-          src: require("../../../assets/img/urządzenia-akumulatorowe.jpg"),
-          category: `
-                <div class="slider__category-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          xmlns:svgjs="http://svgjs.com/svgjs"
-          version="1.1"
-          viewBox="0 0 46.02 46.02"
-          style="enable-background: new 0 0 512 512"
-          xml:space="preserve"
-          class="slider__arrow"
-        >
-          <g>
-            <g xmlns="http://www.w3.org/2000/svg">
-              <g>
-                <path
-                  d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645    C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872    L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                  fill="#fe6000"
-                  data-original="#000000"
-                  style=""
-                  class=""
-                />
-              </g>
-            </g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-          </g>
-        </svg>
-        <span class="slider__category">Urządzenia akumulatorowe</span>
-      </div>`,
+      slides: productsCategories,
+      breakpoints: {
+        1430: {
+          visibleSlides: 2,
+          slideMultiple: 2,
         },
-        {
-          id: uuidv4(),
-          src: require("../../../assets/img/urządzenia-koszące.jpg"),
-          category: `
-                <div class="slider__category-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          xmlns:svgjs="http://svgjs.com/svgjs"
-          version="1.1"
-          viewBox="0 0 46.02 46.02"
-          style="enable-background: new 0 0 512 512"
-          xml:space="preserve"
-          class="slider__arrow"
-        >
-          <g>
-            <g xmlns="http://www.w3.org/2000/svg">
-              <g>
-                <path
-                  d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645    C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872    L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                  fill="#fe6000"
-                  data-original="#000000"
-                  style=""
-                  class=""
-                />
-              </g>
-            </g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-          </g>
-        </svg>
-        <span class="slider__category">Urządzenia koszące</span>
-      </div>`,
+        1000: {
+          visibleSlides: 1,
+          slideMultiple: 1,
         },
-        {
-          id: uuidv4(),
-          src: require("../../../assets/img/pilarki-łańcuchowe.jpg"),
-          category: `
-                <div class="slider__category-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          xmlns:svgjs="http://svgjs.com/svgjs"
-          version="1.1"
-          viewBox="0 0 46.02 46.02"
-          style="enable-background: new 0 0 512 512"
-          xml:space="preserve"
-          class="slider__arrow"
-        >
-          <g>
-            <g xmlns="http://www.w3.org/2000/svg">
-              <g>
-                <path
-                  d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645    C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872    L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                  fill="#fe6000"
-                  data-original="#000000"
-                  style=""
-                  class=""
-                />
-              </g>
-            </g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-          </g>
-        </svg>
-        <span class="slider__category">Pilarki łańcuchowe</span>
-      </div>`,
-        },
-        {
-          id: uuidv4(),
-          src: require("../../../assets/img/kosy-mechaniczne.jpg"),
-          category: `
-                <div class="slider__category-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          xmlns:svgjs="http://svgjs.com/svgjs"
-          version="1.1"
-          viewBox="0 0 46.02 46.02"
-          style="enable-background: new 0 0 512 512"
-          xml:space="preserve"
-          class="slider__arrow"
-        >
-          <g>
-            <g xmlns="http://www.w3.org/2000/svg">
-              <g>
-                <path
-                  d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645    C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872    L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                  fill="#fe6000"
-                  data-original="#000000"
-                  style=""
-                  class=""
-                />
-              </g>
-            </g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-            <g xmlns="http://www.w3.org/2000/svg"></g>
-          </g>
-        </svg>
-        <span class="slider__category">Kosy mechaniczne</span>
-      </div>`,
-        },
-      ],
+      },
     };
   },
 };
@@ -237,8 +60,10 @@ export default {
 
 <style lang="scss">
 .vueperslide {
-  width: 340px;
   height: 222px;
+  @media (min-width: 1000px) {
+    width: 340px;
+  }
 
   &__content-wrapper {
     @apply w-full;
@@ -248,8 +73,24 @@ export default {
 }
 
 .vueperslides {
+  min-height: 222px;
+  @media (min-width: 405px) {
+    width: 340px;
+  }
+  @media (min-width: 1000px) {
+    @apply w-auto;
+    min-height: auto;
+  }
+
   &__track-inner {
     @apply items-center;
+  }
+
+  &__arrow {
+    @apply hidden;
+    @media (min-width: 1115px) {
+      @apply block;
+    }
   }
 
   &__arrow--next {
@@ -261,6 +102,10 @@ export default {
   }
 
   &__parallax-wrapper {
+    min-height: 222px;
+    @media (min-width: 1000px) {
+      min-height: auto;
+    }
     &:before {
       --tw-shadow: 0 0 #0000;
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),

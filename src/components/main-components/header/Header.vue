@@ -156,7 +156,7 @@ export default {
   top: 4.85rem;
 
   &__element {
-    @apply p-3 text-center border-t border-solid border-black text-lg font-semibold hover:text-main-2 transition-colors;
+    @apply p-3 text-center border-t border-solid border-black text-lg font-medium hover:text-main-2 transition-colors;
 
     &:first-child {
       @apply border-0;

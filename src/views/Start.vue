@@ -308,10 +308,22 @@ export default {
   }
 
   &__slider-container {
-    @apply rounded-2xl p-10 grid w-full items-center;
+    @apply rounded-2xl p-2 xs:p-4 md:p-10 grid w-full items-center;
     background-color: #e0e0e0;
     height: 381px;
-    max-width: 1277px;
+    max-width: 783px;
+    @media (min-width: 405px) {
+      justify-content: center;
+    }
+
+    @media (min-width: 1000px) {
+      max-width: 938px;
+      justify-content: normal;
+    }
+
+    @media (min-width: 1430px) {
+      max-width: 1277px;
+    }
   }
 }
 
@@ -322,20 +334,20 @@ export default {
 }
 
 .about-us {
-  @apply bg-white rounded-t-3xl grid justify-items-center p-4 gap-4 w-full pb-15;
+  @apply bg-white rounded-t-3xl grid justify-items-center p-4 gap-6 md:gap-4 w-full md:pb-15;
   max-width: 1470px;
   box-shadow: 0px 0px 100px 5px rgba(255, 97, 0, 0.27);
   transform: translateY(57.5px);
   &__title {
-    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center col-1/2;
+    @apply w-full font-medium text-3xl xs:text-4xl sm:text-5xl text-center col-1 md:col-1/2;
   }
 
-  &__img {
-    @apply col-1 justify-self-end;
+  &__main-img {
+    @apply col-1 row-2 md:justify-self-end;
   }
 
   &__desc-container {
-    @apply col-2 row-start-2 grid gap-y-4;
+    @apply col-1 md:col-2 md:row-start-2 grid gap-y-4;
     max-width: 682px;
   }
 }

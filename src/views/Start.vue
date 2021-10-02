@@ -124,10 +124,7 @@
   <section class="our-products">
     <h2 class="our-products__title">Zobacz nasze produkty</h2>
     <div class="our-products__slider-container">
-      <base-slider
-        classes="our-products__slider"
-        :slides="prodactsCategories"
-      ></base-slider>
+      <base-slider classes="our-products__slider"></base-slider>
     </div>
   </section>
   <section class="about-us-group">
@@ -205,11 +202,6 @@ import BaseSlider from "../components/main-components/slider/Slider.vue";
 export default {
   components: {
     BaseSlider,
-  },
-  data() {
-    return {
-      productsCategories: this.$store.getters.productsCategories,
-    };
   },
 };
 </script>

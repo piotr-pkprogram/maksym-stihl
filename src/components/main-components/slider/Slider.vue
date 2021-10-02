@@ -1,7 +1,6 @@
 <template>
   <vueper-slides
     :infinite="false"
-    :bullets="false"
     :visible-slides="3"
     slide-multiple
     :gap="5"
@@ -116,6 +115,19 @@ export default {
       --tw-shadow: 0 0 #0000;
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    }
+  }
+
+  &__bullets {
+    @apply static;
+    @media (min-width: 1115px) {
+      @apply hidden;
+    }
+  }
+
+  &__bullet {
+    &--active .default {
+      @apply bg-black border-black;
     }
   }
 }

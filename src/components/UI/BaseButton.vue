@@ -26,7 +26,7 @@ export default {
     },
     to: {
       type: String,
-      required: true,
+      required: false,
     },
     classes: {
       type: String,

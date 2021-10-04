@@ -2,8 +2,12 @@
   <footer :class="classes">
     <div class="footer__main-informations">
       <footer-block title="Dane Kontaktowe:">
-        <span class="footer__tel">Tel. 606 612 737</span>
-        <span class="footer__mail">maksym.stihl@o2.pl</span>
+        <text-links classes="footer__tel" href="tel:606612737"
+          >Tel. 606 612 737</text-links
+        >
+        <text-links classes="footer__mail" href="mailto:maksym.stihl@o2.pl"
+          >maksym.stihl@o2.pl</text-links
+        >
         <p class="footer__copyright footer__copyright--media">
           Copyright © 2021 Maksym STIHL
         </p>
@@ -34,7 +38,7 @@
       <footer-block
         title="Polityka Prywatności"
         :titleIsLink="true"
-        link="/polityka-prywatności.html"
+        link="/polityka-prywatności"
         classes="footer__blocks md:row-start-2 md:col-start-2"
       ></footer-block>
       <p class="footer__copyright md:row-start-2 md:col-start-3">
@@ -66,7 +70,7 @@ export default {
   @apply bg-C4 text-black xs:p-5 pb-7 p-2;
 
   &__main-informations {
-    @apply grid justify-center gap-4 md:grid-flow-col;
+    @apply grid justify-center gap-4 gap-y-9 md:grid-flow-col;
     @media (min-width: 1319px) {
       @apply gap-0;
       justify-content: normal;

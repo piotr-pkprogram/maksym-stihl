@@ -8,7 +8,7 @@
       </transition>
     </router-view>
   </main>
-  <the-footer :classes="footerClasses"></the-footer>
+  <the-footer></the-footer>
   <teleport to="body">
     <button-top></button-top>
     <agree-widget></agree-widget>
@@ -28,11 +28,6 @@ export default {
     TheFooter,
     ButtonTop,
     AgreeWidget,
-  },
-  computed: {
-    footerClasses() {
-      return location.pathname == "/" ? "footer pt-24" : "footer";
-    },
   },
   methods: {
     menuAnimation() {

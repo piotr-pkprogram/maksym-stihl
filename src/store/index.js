@@ -10,24 +10,48 @@ export default createStore({
             },
             {
                 id: uuidv4(),
-                href: "/produkty.html",
+                href: "/nasze-produkty",
                 textValue: "Produkty",
             },
             {
                 id: uuidv4(),
-                href: "/serwis-naprawczy.html",
+                href: "/serwis-naprawczy",
                 textValue: "Serwis Naprawczy",
             },
             {
                 id: uuidv4(),
-                href: "/kontak.html",
+                href: "/kontakt",
                 textValue: "Kontakt",
                 classes: "phone-menu__element phone-menu__element--last"
             },
         ],
         isPhoneMenuOpen: false,
         IsFiframeTransform: false,
-
+        productsCategories: [{
+                id: uuidv4(),
+                src: require("../assets/img/urządzenia-akumulatorowe.jpg"),
+                link: "/urzadzenia-akumulatorowe",
+                category: "Urządzenia akumulatorowe",
+            },
+            {
+                id: uuidv4(),
+                src: require("../assets/img/urządzenia-koszące.jpg"),
+                link: "/urzadzenia-koszace",
+                category: "Urządzenia koszące",
+            },
+            {
+                id: uuidv4(),
+                src: require("../assets/img/pilarki-łańcuchowe.jpg"),
+                link: "/pilarki-lancuchowe",
+                category: "Pilarki łańcuchowe",
+            },
+            {
+                id: uuidv4(),
+                src: require("../assets/img/kosy-mechaniczne.jpg"),
+                link: "/kosy-mechaniczne",
+                category: "Kosy mechaniczne",
+            },
+        ]
     },
     getters: {
         menuElements(state) {

@@ -29,27 +29,27 @@ export default createStore({
         IsFiframeTransform: false,
         productsCategories: [{
                 id: uuidv4(),
+                name: "Urządzenia akumulatorowe",
                 src: require("../assets/img/urządzenia-akumulatorowe.jpg"),
                 link: "/urzadzenia-akumulatorowe",
-                category: "Urządzenia akumulatorowe",
             },
             {
                 id: uuidv4(),
+                name: "Urządzenia koszące",
                 src: require("../assets/img/urządzenia-koszące.jpg"),
                 link: "/urzadzenia-koszace",
-                category: "Urządzenia koszące",
             },
             {
                 id: uuidv4(),
+                name: "Pilarki łańcuchowe",
                 src: require("../assets/img/pilarki-łańcuchowe.jpg"),
                 link: "/pilarki-lancuchowe",
-                category: "Pilarki łańcuchowe",
             },
             {
                 id: uuidv4(),
+                name: "Kosy mechaniczne",
                 src: require("../assets/img/kosy-mechaniczne.jpg"),
                 link: "/kosy-mechaniczne",
-                category: "Kosy mechaniczne",
             },
         ]
     },

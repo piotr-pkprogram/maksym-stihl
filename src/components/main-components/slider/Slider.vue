@@ -58,7 +58,7 @@
               <g xmlns="http://www.w3.org/2000/svg"></g>
             </g>
           </svg>
-          <span class="slider__category">{{ slide.category }}</span>
+          <span class="slider__category">{{ slide.name }}</span>
         </div>
       </template>
     </vueper-slide>

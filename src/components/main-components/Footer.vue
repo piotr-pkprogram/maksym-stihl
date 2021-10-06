@@ -16,7 +16,7 @@
         <img src="../../assets/img/location.png" alt="" class="footer__location-img" />
         <address class="footer__address">
           <span class="footer__road">Głowackiego 1a, 66-440</span>
-          <span class="footer__city">Skiewrzyna</span>
+          <span class="footer__city">Skwierzyna</span>
         </address>
       </footer-block>
       <footer-block title="Godziny Otwarcia">

@@ -3,6 +3,7 @@ import Products from "../views/Products.vue";
 import RepairService from "../views/RepairService.vue";
 import Contact from "../views/Contact.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
+import Category from "../views/Category.vue";
 
 const routes = [{
         name: 'start',
@@ -12,7 +13,7 @@ const routes = [{
     },
     {
         name: 'nasze-produkty',
-        path: '/nasze-produkty',
+        path: '/produkty',
         component: Products,
     },
     {
@@ -30,6 +31,11 @@ const routes = [{
         path: '/polityka-prywatności',
         component: PrivacyPolicy,
     },
+    {
+        name: 'kategorie',
+        path: "/:categoryName",
+        component: Category,
+    }
 ];
 
 export default routes;

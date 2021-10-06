@@ -10,7 +10,7 @@ export default createStore({
             },
             {
                 id: uuidv4(),
-                href: "/nasze-produkty",
+                href: "/produkty",
                 textValue: "Produkty",
             },
             {
@@ -31,25 +31,226 @@ export default createStore({
                 id: uuidv4(),
                 name: "Urządzenia akumulatorowe",
                 src: require("../assets/img/urządzenia-akumulatorowe.jpg"),
-                link: "/urzadzenia-akumulatorowe",
+                link: "/urządzenia-akumulatorowe",
+                products: [{
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Stihl",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Viking",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Fiskars",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Briggs & Stratton",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Endress",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Oregon",
+                    },
+                ]
             },
             {
                 id: uuidv4(),
                 name: "Urządzenia koszące",
                 src: require("../assets/img/urządzenia-koszące.jpg"),
-                link: "/urzadzenia-koszace",
+                link: "/urządzenia-koszące",
+                products: [{
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Stihl",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Viking",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Fiskars",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Briggs & Stratton",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Endress",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Oregon",
+                    },
+                ]
             },
             {
                 id: uuidv4(),
                 name: "Pilarki łańcuchowe",
                 src: require("../assets/img/pilarki-łańcuchowe.jpg"),
-                link: "/pilarki-lancuchowe",
+                link: "/pilarki-łańcuchowe",
+                products: [{
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Stihl",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Viking",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Fiskars",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Briggs & Stratton",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Endress",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Oregon",
+                    },
+                ]
             },
             {
                 id: uuidv4(),
                 name: "Kosy mechaniczne",
                 src: require("../assets/img/kosy-mechaniczne.jpg"),
                 link: "/kosy-mechaniczne",
+                products: [{
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Stihl",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Viking",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Fiskars",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Briggs & Stratton",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Endress",
+                    },
+                    {
+                        id: uuidv4(),
+                        name: "",
+                        src: "",
+                        link: "",
+                        producer: "Oregon",
+                    },
+                ]
+            },
+        ],
+        producers: [{
+                id: uuidv4(),
+                name: "Wszystkie",
+            },
+            {
+                id: uuidv4(),
+                name: "Stihl",
+            },
+            {
+                id: uuidv4(),
+                name: "Viking",
+            },
+            {
+                id: uuidv4(),
+                name: "Fiskars",
+            },
+            {
+                id: uuidv4(),
+                name: "Briggs & Stratton",
+            },
+            {
+                id: uuidv4(),
+                name: "Endress",
+            },
+            {
+                id: uuidv4(),
+                name: "Oregon",
             },
         ]
     },
@@ -65,6 +266,9 @@ export default createStore({
         },
         productsCategories(state) {
             return state.productsCategories;
+        },
+        producers(state) {
+            return state.producers;
         }
     },
     mutations: {

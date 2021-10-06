@@ -204,7 +204,7 @@ export default {
   @apply grid items-center p-2 relative;
 
   &__title {
-    @apply text-5xl;
+    @apply text-2xl xxs:text-3xl xs:text-5xl w-full;
 
     &-container {
       @apply p-4 pl-6 h-40 grid items-center rounded-3xl;
@@ -212,7 +212,7 @@ export default {
   }
 
   &__main {
-    @apply border-t-2 border-main-2;
+    @apply border-t-2 border-main-2 mt-10;
   }
 
   &__row {

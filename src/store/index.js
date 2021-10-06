@@ -58,7 +58,7 @@ export default createStore({
         ],
         producers: [{
                 id: uuidv4(),
-                name: "Wszystkie",
+                name: "Wszyscy",
             },
             {
                 id: uuidv4(),

@@ -13,7 +13,7 @@
         @click="filtering(option.name)"
         >{{ option.name
         }}<input
-          v-if="option.name != 'Wszystkie'"
+          v-if="option.name != 'Wszyscy'"
           type="radio"
           class="filter__radio"
           name="producent"

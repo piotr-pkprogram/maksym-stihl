@@ -4,6 +4,7 @@ import RepairService from "../views/RepairService.vue";
 import Contact from "../views/Contact.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import Category from "../views/Category.vue";
+import Product from "../views/Product.vue"
 
 const routes = [{
         name: 'start',
@@ -35,7 +36,13 @@ const routes = [{
         name: 'kategorie',
         path: "/:categoryName",
         component: Category,
+    },
+    {
+        name: "produkty",
+        path: "/:categoryName/:productName",
+        component: Product
     }
+
 ];
 
 export default routes;

@@ -18,10 +18,10 @@
             class="category__product"
             v-for="product in productRow"
             :key="product.id"
-            :to="product.link"
+            :to="category.link + product.link"
             :data-producer="product.producer"
           >
-            <img :src="product.src" :alt="product.name" class="category__bg-image" />
+            <img :src="product.src" :alt="product.alt" class="category__bg-image" />
             <div class="category__info">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +134,11 @@ export default {
     };
   },
   computed: {
+    category() {
+      return this.productsCategories.find((c) => c.name == this.title);
+    },
     products() {
-      const category = this.productsCategories.find((c) => c.name == this.title);
-      const products = this.arraySplitting(category.products, 4);
-
-      return products;
+      return this.arraySplitting(this.category.products, 4);
     },
     image() {
       const category = this.productsCategories.find((c) => {
@@ -227,7 +227,7 @@ export default {
   }
 
   &__product {
-    @apply relative grid items-end;
+    @apply relative grid items-end border border-gray-400 rounded-3xl;
     width: 217.6px;
     height: 142.368px;
 
@@ -258,7 +258,7 @@ export default {
   }
 
   &__bg-image {
-    @apply absolute w-full min-h-full z-0;
+    @apply absolute w-full min-h-full z-0 rounded-3xl;
   }
 
   &__info {

@@ -177,7 +177,7 @@ export default {
       const products = document.querySelectorAll(".category__product");
 
       products.forEach((el) => {
-        if (option == "Wszystkie") {
+        if (option == "Wszyscy") {
           el.classList.remove("hidden");
         } else {
           el.classList.remove("hidden");

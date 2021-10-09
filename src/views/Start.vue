@@ -218,23 +218,6 @@ export default {
   components: {
     BaseSlider,
   },
-  //   data() {
-  //     return {
-  //       video: {
-  //         sources: [
-  //           {
-  //             src: "@/src/assets/bg-video.mp4",
-  //             type: "video/mp4",
-  //           },
-  //         ],
-  //         options: {
-  //           autoplay: true,
-  //           volume: 0,
-  //           poster: "../assets/img/poster-bg-viedo.jpg",
-  //         },
-  //       },
-  //     };
-  //   },
 };
 </script>
 

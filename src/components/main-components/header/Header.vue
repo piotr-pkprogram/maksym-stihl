@@ -151,7 +151,7 @@ export default {
 }
 
 .phone-menu {
-  @apply fixed right-0 bg-white h-full border-solid border-black border-l-2 transform translate-x-full hidden z-20;
+  @apply fixed right-0 bg-white h-full border-solid border-black border-l-2 transform translate-x-full hidden z-30;
   width: 163px;
   top: 4.85rem;
 

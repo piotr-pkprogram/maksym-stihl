@@ -86,7 +86,7 @@ export default {
     return {
       slides: this.$store.getters.productsCategories,
       breakpoints: {
-        1430: {
+        1453: {
           visibleSlides: 2,
           slideMultiple: 2,
         },

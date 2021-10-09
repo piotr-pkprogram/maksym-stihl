@@ -1,7 +1,19 @@
 <template>
   <div>
     <!--cta - call to action-->
-    <section class="pt-10 pb-10 cta lg:p-3">
+    <section class="relative pt-10 pb-10 cta lg:p-3">
+      <video
+        class="cta__bg-video"
+        autoplay
+        loop
+        poster="../assets/img/poster-bg-viedo.jpg"
+        muted
+        preload
+        playsinline
+      >
+        <source src="../assets/bg-video.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute top-0 left-0 z-10 w-full h-full bg-black bg-opacity-50"></div>
       <div class="cta__containers">
         <div class="cta__btn-container">
           <p class="cta__short-desc">
@@ -206,15 +218,29 @@ export default {
   components: {
     BaseSlider,
   },
+  //   data() {
+  //     return {
+  //       video: {
+  //         sources: [
+  //           {
+  //             src: "@/src/assets/bg-video.mp4",
+  //             type: "video/mp4",
+  //           },
+  //         ],
+  //         options: {
+  //           autoplay: true,
+  //           volume: 0,
+  //           poster: "../assets/img/poster-bg-viedo.jpg",
+  //         },
+  //       },
+  //     };
+  //   },
 };
 </script>
 
 <style lang="scss" scoped>
 .cta {
-  @apply bg-no-repeat w-full grid p-1 sm:p-3 h-full gap-10 lg:gap-0 lg:grid-flow-col;
-  background-image: url(../assets/img/traktor-ogrodowy.jpg);
-  background-size: auto 100%;
-  background-position: center;
+  @apply w-full grid p-1 sm:p-3 h-full gap-10 lg:gap-0 lg:grid-flow-col;
 
   @media (min-width: 1024px) {
     height: 511px;
@@ -229,8 +255,13 @@ export default {
     @apply grid content-center justify-items-center relative;
   }
 
+  &__bg-video {
+    @apply absolute w-full h-full z-0 top-0 left-0;
+    object-fit: none;
+  }
+
   &__btn-container {
-    @apply font-medium h-full flex flex-wrap flex-col text-f6 justify-center xs:justify-start;
+    @apply font-medium h-full flex flex-wrap flex-col text-f6 justify-center xs:justify-start z-20;
   }
 
   &__short-desc {
@@ -242,12 +273,12 @@ export default {
   }
 
   &__localization-link {
-    @apply flex items-center gap-1 hover:opacity-75 transition-opacity mt-5 lg:mt-0 lg:absolute lg:bottom-6 text-sm xs:text-base;
+    @apply flex items-center gap-1 hover:opacity-75 transition-opacity mt-5 lg:mt-0 lg:absolute lg:bottom-6 text-sm xs:text-base font-medium;
     color: #00e727;
   }
 
   &__stihl-tool {
-    @apply lg:w-auto;
+    @apply lg:w-auto z-20;
     width: 500px;
   }
 }
@@ -320,7 +351,7 @@ export default {
       justify-content: normal;
     }
 
-    @media (min-width: 1430px) {
+    @media (min-width: 1452px) {
       max-width: 1277px;
     }
   }

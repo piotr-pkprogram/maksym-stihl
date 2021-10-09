@@ -196,6 +196,12 @@ export default {
 
     this.title = name.join("").replace("-", " ");
   },
+  beforeRouteLeave(_, __, next) {
+    if (this.$store.getters.isPhoneMenuOpen) {
+      this.$store.commit("openClosePhoneMenu");
+    }
+    next();
+  },
 };
 </script>
 

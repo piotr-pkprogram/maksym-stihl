@@ -3,7 +3,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+    beforeRouteLeave(_, __, next) {
+    if (this.$store.getters.isPhoneMenuOpen) {
+      this.$store.commit("openClosePhoneMenu");
+    }
+    next();
+  },
+};
 </script>
 
 <style></style>

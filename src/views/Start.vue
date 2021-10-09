@@ -218,6 +218,12 @@ export default {
   components: {
     BaseSlider,
   },
+  beforeRouteLeave(_, __, next) {
+    if (this.$store.getters.isPhoneMenuOpen) {
+      this.$store.commit("openClosePhoneMenu");
+    }
+    next();
+  },
 };
 </script>
 

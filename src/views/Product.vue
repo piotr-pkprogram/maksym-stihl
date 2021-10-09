@@ -75,6 +75,12 @@ export default {
 
     this.technical_data = this.product.technical_data;
   },
+    beforeRouteLeave(_, __, next) {
+    if (this.$store.getters.isPhoneMenuOpen) {
+      this.$store.commit("openClosePhoneMenu");
+    }
+    next();
+  },
 };
 </script>
 
@@ -119,7 +125,7 @@ export default {
   &__technical-data {
     @apply grid justify-items-center items-center;
     @media (min-width: 390px) {
-      height: 452px;
+      height: 452px ;
     }
   }
 

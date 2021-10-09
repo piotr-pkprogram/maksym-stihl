@@ -64,9 +64,9 @@ export default {
             const iframe = document.createElement("iframe");
             iframe.setAttribute("class", fiframe.getAttribute("class"));
             iframe.setAttribute("src", fiframe.getAttribute("src"));
-            iframe.setAttribute("title", fiframe.getAttribute("title"));
-            iframe.setAttribute("frameborder", fiframe.getAttribute("frameborder"));
+            iframe.setAttribute("style", fiframe.getAttribute("style"));
             iframe.setAttribute("allow", fiframe.getAttribute("allow"));
+            iframe.setAttribute("loading", fiframe.getAttribute("loading"));
             iframe.setAttribute("allowfullscreen", "");
 
             fiframe.remove();
@@ -150,5 +150,13 @@ main {
 .route-leave-from {
   opacity: 1;
   transform: translateY(0);
+}
+
+.contact__localization {
+  @apply rounded-3xl lg:w-auto lg:h-auto w-full;
+  @media (min-width: 475px) {
+    height: 500px;
+    width: 500px;
+  }
 }
 </style>

@@ -134,7 +134,7 @@
           <base-button
             classes="orange-btn rounded-full self-end"
             type="router-link"
-            to="/nasze-produkty"
+            to="/produkty"
             >Zobacz produkty</base-button
           >
         </div>

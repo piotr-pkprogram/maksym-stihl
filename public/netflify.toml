@@ -1,0 +1,35 @@
+[[redirects]]
+  from = "/produkty"
+  to = "/"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  
+[[redirects]]
+  from = "/serwis-naprawczy"
+  to = "/"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  
+[[redirects]]
+  from = "/kontakt"
+  to = "/"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  
+[[redirects]]
+  from = "/polityka-prywatności"
+  to = "/"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  
+[[redirects]]
+  from = "/:categoryName"
+  to = "/"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+  
+[[redirects]]
+  from = "/produkty"
+  to = "/:categoryName/:productName"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect

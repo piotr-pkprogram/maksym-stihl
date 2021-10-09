@@ -130,7 +130,7 @@ export default {
 }
 
 .phone-header {
-  @apply grid grid-flow-col grid-cols-3/4 fixed top-0 z-20 w-full md:hidden bg-white max-h-36 min-h-58.5 border-solid border-black border-b-2;
+  @apply grid grid-flow-col grid-cols-3/4 fixed top-0 z-30 w-full md:hidden bg-white max-h-36 min-h-58.5 border-solid border-black border-b-2;
 
   &__logo {
     @apply h-15;

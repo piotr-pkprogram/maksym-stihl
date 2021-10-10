@@ -332,7 +332,8 @@ export default {
 }
 
 .loader-message {
-  @apply text-black col-1/2 p-2 bg-f6 border-2 rounded-lg hidden;
+  @apply text-black w-full col-1/2 p-2 bg-f6 border-2 rounded-lg hidden;
+  max-width: 393px;
 }
 
 @keyframes rotate {
@@ -356,7 +357,7 @@ export default {
 }
 
 .place-img {
-  @apply flex flex-wrap justify-center items-center;
+  @apply flex flex-wrap justify-center items-center p-3;
   height: 630px;
 }
 </style>

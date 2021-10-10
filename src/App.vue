@@ -154,7 +154,9 @@ main {
 
 .contact__localization {
   @apply rounded-3xl lg:w-auto lg:h-auto w-full;
-  @media (min-width: 475px) {
+  height: 500px;
+  max-width: 500px;
+  @media (min-width: 550px) {
     height: 500px;
     width: 500px;
   }

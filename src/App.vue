@@ -101,14 +101,18 @@ html {
 }
 
 body {
-  @apply relative;
+  @apply relative flex flex-wrap justify-center;
 }
 
 #app {
+  @apply w-full;
   font-family: "Inter", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+  }
 }
 
 #nav {

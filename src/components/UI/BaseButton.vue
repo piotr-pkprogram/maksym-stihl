@@ -45,7 +45,7 @@ a {
 
 .orange-btn {
   @apply rounded-lg text-white min-w-20 block h-min;
-  background: rgba(255, 97, 0, 87);
+  background-color: rgba(255, 97, 0, 87);
 }
 
 .light-btn {

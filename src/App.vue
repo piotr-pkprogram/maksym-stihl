@@ -165,4 +165,18 @@ main {
     width: 500px;
   }
 }
+
+.where-we-fix__localization {
+  @apply xxs:rounded-3xl lg:w-auto lg:h-auto w-full;
+  height: 500px;
+
+  @media (min-width: 303px) {
+    max-width: 95%;
+  }
+
+  @media (min-width: 550px) {
+    height: 500px;
+    width: 95%;
+  }
+}
 </style>

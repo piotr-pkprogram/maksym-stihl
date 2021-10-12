@@ -16,5 +16,8 @@ export default {
     },
     fixCategories(state) {
         return state.fixCategories;
+    },
+    processElements(state) {
+        return state.processElements;
     }
 }

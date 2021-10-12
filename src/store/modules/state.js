@@ -2,6 +2,7 @@ import menuElements from "./state/menuElements";
 import productsCategories from "./state/productsCategories";
 import producers from "./state/producers";
 import fixCategories from "./state/fixCategories";
+import processElements from "./state/processElements";
 
 export default {
     menuElements,
@@ -10,4 +11,5 @@ export default {
     productsCategories,
     producers,
     fixCategories,
+    processElements,
 }

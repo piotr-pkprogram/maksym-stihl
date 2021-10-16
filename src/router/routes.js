@@ -1,10 +1,17 @@
-import Start from "../views/Start.vue";
-import Products from "../views/Products.vue";
-import RepairService from "../views/RepairService.vue";
-import Contact from "../views/Contact.vue";
-import PrivacyPolicy from "../views/PrivacyPolicy.vue";
-import Category from "../views/Category.vue";
-import Product from "../views/Product.vue"
+const Start = () =>
+    import ("../views/Start.vue");
+const Products = () =>
+    import ("../views/Products.vue");
+const RepairService = () =>
+    import ("../views/RepairService.vue");
+const Contact = () =>
+    import ("../views/Contact.vue");
+const PrivacyPolicy = () =>
+    import ("../views/PrivacyPolicy.vue");
+const Category = () =>
+    import ("../views/Category.vue");
+const Product = () =>
+    import ("../views/Product.vue");
 
 const routes = [{
         name: 'start',

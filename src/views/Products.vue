@@ -112,10 +112,12 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   data() {
     return {
-      productsCategories: this.$store.getters.productsCategories,
+      productsCategories: [],
       moreApear: true,
     };
   },
@@ -150,6 +152,105 @@ export default {
         }
       });
     },
+    async getProducts() {
+      await fetch("/getCategories.php")
+        .then((res) => {
+          if (res.ok) return res.json();
+          else throw new Error("Wystąpił błąd");
+        })
+        .then((json) => {
+          const categoryArr = json.results.map((prod) => prod.properties).reverse();
+
+          this.productsCategories = categoryArr.map((category) => {
+            category.id = uuidv4();
+
+            category.name = category.Nazwa.title[0]
+              ? category.Nazwa.title[0].plain_text
+              : "";
+            delete category.Nazwa;
+            category.src = category.Główne_zdjęcie.files[0]
+              ? category.Główne_zdjęcie.files[0].file.url
+              : "";
+            delete category.Główne_zdjęcie;
+            category.link = category.Link.url ? category.Link.url : "";
+            delete category.Link;
+            category.bg_image = category.Zdjęcie_w_tle.files[0]
+              ? category.Zdjęcie_w_tle.files[0].file.url
+              : "";
+            delete category.Zdjęcie_w_tle;
+
+            category.products = category.Produkty.relation.map(async (prod) => {
+              await fetch("/getProducts.php")
+                .then((res) => {
+                  if (res.ok) return res.json();
+                  else throw new Error("Wystąpił błąd");
+                })
+                .then((json) => {
+                  const oldProd = json.results.find((obj) => obj.id === prod.id);
+                  prod = oldProd.properties;
+
+                  prod.id = uuidv4();
+                  prod.name = prod.Nazwa.title[0] ? prod.Nazwa.title[0].plain_text : "";
+                  delete prod.Nazwa;
+                  prod.short_desc = prod.Krótki_opis.rich_text[0]
+                    ? prod.Krótki_opis.rich_text[0].plain_text
+                    : "";
+                  delete prod.Krótki_opis;
+                  prod.long_desc = prod.Długi_opis.rich_text[0]
+                    ? prod.Długi_opis.rich_text[0].plain_text
+                    : "";
+                  delete prod.Długi_opis;
+                  prod.link = prod.Link.url ? prod.Link.url : "";
+                  delete prod.Link;
+                  prod.src = prod.Zdjęcie_produktu.files[0]
+                    ? prod.Zdjęcie_produktu.files[0].file.url
+                    : "";
+                  delete prod.Zdjęcie_produktu;
+                  prod.alt = prod.Tekst_alternatywny.rich_text[0]
+                    ? prod.Tekst_alternatywny.rich_text[0].plain_text
+                    : "";
+                  delete prod.Tekst_alternatywny;
+                  prod.producer = prod.Producent.rich_text[0]
+                    ? prod.Producent.rich_text[0].plain_text
+                    : "";
+                  delete prod.Producent;
+
+                  fetch("/getTechnicalData.php")
+                    .then((res) => {
+                      if (res.ok) return res.json();
+                      else throw new Error("Wystąpił błąd");
+                    })
+                    .then((json) => {
+                      const technicalData = prod.Dane_techniczne.relation[0];
+
+                      prod.technical_data = json.results.find(
+                        (obj) => obj.id === technicalData.id
+                      ).properties;
+                      prod.technical_data.wartosc_drgan_uchwyt =
+                        prod.technical_data.wartosc_drgan_uchwyt.rich_text[0].plain_text;
+                    })
+                    .catch((err) => {
+                      throw new Error(err);
+                    });
+                })
+                .catch((err) => {
+                  throw new Error(err);
+                });
+
+              return prod;
+            });
+            return category;
+          });
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+
+      console.log(this.productsCategories);
+    },
+  },
+  created() {
+    this.getProducts();
   },
   beforeRouteLeave(_, __, next) {
     if (this.$store.getters.isPhoneMenuOpen) {

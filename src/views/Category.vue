@@ -120,6 +120,7 @@
 
 <script>
 import BaseFilter from "../components/main-components/Filter.vue";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   components: {
@@ -127,26 +128,21 @@ export default {
   },
   data() {
     return {
-      productsCategories: this.$store.getters.productsCategories,
+      productsCategories: [],
       moreApear: true,
       title: "",
       startProds: this.products,
+      category: {},
+      products: [],
     };
   },
   computed: {
-    category() {
-      return this.productsCategories.find((c) => c.name == this.title);
-    },
-    products() {
-      return this.arraySplitting(this.category.products, 4);
-    },
-    image() {
-      const category = this.productsCategories.find((c) => {
-        return c.name == this.title;
-      });
-
-      return `../assets${category.src}`;
-    },
+    // category() {
+    //   return this.productsCategories.find((c) => c.name == this.title);
+    // },
+    // products() {
+    //   return this.arraySplitting(this.category.products, 4);
+    // },
   },
   methods: {
     arraySplitting(arr, chunk) {
@@ -187,6 +183,69 @@ export default {
         }
       });
     },
+    getProducts() {
+      fetch("/getCategories.php")
+        .then((res) => {
+          if (res.ok) return res.json();
+          else throw new Error("Wystąpił błąd");
+        })
+        .then((json) => {
+          const categoryArr = json.results.map((prod) => prod.properties).reverse();
+
+          this.productsCategories = categoryArr.map((category) => {
+            category.id = uuidv4();
+
+            category.name = category.Nazwa.title[0]
+              ? category.Nazwa.title[0].plain_text
+              : "";
+            delete category.Nazwa;
+            category.src = category.Główne_zdjęcie.files[0]
+              ? category.Główne_zdjęcie.files[0].file.url
+              : "";
+            category.link = category.Link.url ? category.Link.url : "";
+            delete category.Link;
+
+            return category;
+          });
+
+          this.category = this.productsCategories.find((c) => c.name == this.title);
+          console.log(this.category);
+
+          fetch("/getProducts.php")
+            .then((res) => {
+              if (res.ok) return res.json();
+              else throw new Error("Wystąpił błąd");
+            })
+            .then((json) => {
+              this.category.products = this.category.Produkty.relation;
+
+              const products = this.category.products.map((prod) => {
+                let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
+
+                newProd = newProd.properties;
+
+                newProd.id = uuidv4();
+                newProd.name = newProd.Nazwa.title[0].plain_text;
+                delete newProd.Nazwa;
+                newProd.link = newProd.Link.url;
+                delete newProd.Link;
+                newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
+                delete newProd.Zdjęcie_produktu;
+                newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
+                delete newProd.Tekst_alternatywny;
+                newProd.prosucer = newProd.Producent.rich_text[0].plain_text;
+                delete newProd.Producent;
+
+                return newProd;
+              });
+
+              this.products = this.arraySplitting(products, 4);
+            });
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    },
   },
   created() {
     let name = this.$route.params.categoryName;
@@ -195,6 +254,7 @@ export default {
     name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el));
 
     this.title = name.join("").replace("-", " ");
+    this.getProducts();
   },
   beforeRouteLeave(_, __, next) {
     if (this.$store.getters.isPhoneMenuOpen) {

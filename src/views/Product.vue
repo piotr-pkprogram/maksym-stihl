@@ -19,23 +19,23 @@
         <tbody class="product__data-body">
           <tr>
             <td class="border-t-0">Długość cięcia cm</td>
-            <td class="border-t-0">{{ technical_data.dlugosc_ciecia }}</td>
+            <td class="border-t-0">{{ technical_data.dlugosc_ciecia.number }}</td>
           </tr>
           <tr>
             <td>Napięcie znamionowe V</td>
-            <td>{{ technical_data.napiecie_znamionowe }}</td>
+            <td>{{ technical_data.napiecie_znamionowe.number }}</td>
           </tr>
           <tr>
             <td>Ciężar kg z akumulatorem</td>
-            <td>{{ technical_data.cieżar_z_akumulatorem }}</td>
+            <td>{{ technical_data.cieżar_z_akumulatorem.number }}</td>
           </tr>
           <tr>
             <td>Poziom ciśnienia akustycznego dB(A)</td>
-            <td>{{ technical_data.poziom_cisnienia_akustycznego }}</td>
+            <td>{{ technical_data.poziom_cisnienia_akustycznego.number }}</td>
           </tr>
           <tr>
             <td>Poziom mocy akustycznej dB(A)</td>
-            <td>{{ technical_data.poziom_cisnienia_akustycznego }}</td>
+            <td>{{ technical_data.poziom_cisnienia_akustycznego.number }}</td>
           </tr>
           <tr>
             <td>Wartość drgań uchwyt lewy/prawy m/s²</td>
@@ -44,7 +44,7 @@
           <tr>
             <td class="border-b-2 rounded-bl-3xl">Długość całkowita cm</td>
             <td class="border-b-2 rounded-br-3xl">
-              {{ technical_data.dlugosc_calkowita }}
+              {{ technical_data.dlugosc_calkowita.number }}
             </td>
           </tr>
         </tbody>
@@ -54,28 +54,91 @@
 </template>
 
 <script>
+// import { v4 as uuidv4 } from "uuid";
+
 export default {
   data() {
     return {
-      productsCategories: this.$store.getters.productsCategories,
       product: "",
-      category: "",
+      category: {},
       technical_data: {},
     };
   },
-  created() {
-    const category = `/${this.$route.params.categoryName}`;
-    this.category = this.productsCategories.find((c) => {
-      return c.link == category;
-    });
-    console.log(this.category.bg_image, this.category.src);
+  methods: {
+    async getProduct() {
+      await fetch("/getCategories.php")
+        .then((res) => {
+          if (res.ok) return res.json();
+          else throw new Error("Wystąpił błąd");
+        })
+        .then((json) => {
+          const categoryArr = json.results
+            .map((category) => category.properties)
+            .reverse();
 
-    const url = `/${this.$route.params.productName}`;
-    this.product = this.category.products.find((p) => p.link == url);
+          const category = categoryArr.find(
+            (c) => c.Link.url === `/${this.$route.params.categoryName}`
+          );
 
-    this.technical_data = this.product.technical_data;
+          category.bg_image = category.Zdjęcie_w_tle.files[0].file.url;
+          delete category.Zdjęcie_w_tle;
+          this.category = category;
+
+          fetch("/getProducts.php")
+            .then((res) => {
+              if (res.ok) return res.json();
+              else throw new Error("Wystąpił błąd");
+            })
+            .then((json) => {
+              const products = this.category.Produkty.relation.map((relProd) => {
+                return json.results.find((prod) => prod.id === relProd.id).properties;
+              });
+
+              const product = products.find(
+                (prod) => prod.Link.url === `/${this.$route.params.productName}`
+              );
+
+              product.name = product.Nazwa.title[0].plain_text;
+              delete product.Nazwa;
+              product.src = product.Zdjęcie_produktu.files[0].file.url;
+              delete product.Zdjęcie_produktu;
+              product.alt = product.Tekst_alternatywny.rich_text[0].plain_text;
+              delete product.Tekst_alternatywny;
+              product.short_desc = product.Krótki_opis.rich_text[0].plain_text;
+              delete product.Krótki_opis;
+              product.long_desc = product.Długi_opis.rich_text[0].plain_text;
+              delete product.Długi_opis;
+
+              this.product = product;
+
+              fetch("/getTechnicalData.php")
+                .then((res) => {
+                  if (res.ok) return res.json();
+                  else throw new Error("Wystąpił błąd");
+                })
+                .then((json) => {
+                  const technicalData = json.results.find(
+                    (data) => data.id === this.product.Dane_techniczne.relation[0].id
+                  ).properties;
+
+                  technicalData.wartosc_drgan_uchwyt =
+                    technicalData.wartosc_drgan_uchwyt.rich_text[0].plain_text;
+                  this.technical_data = technicalData;
+                });
+            })
+            .catch((err) => {
+              throw new Error(err);
+            });
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    },
   },
-    beforeRouteLeave(_, __, next) {
+  created() {
+    this.getProduct();
+  },
+  beforeRouteLeave(_, __, next) {
     if (this.$store.getters.isPhoneMenuOpen) {
       this.$store.commit("openClosePhoneMenu");
     }
@@ -125,7 +188,7 @@ export default {
   &__technical-data {
     @apply grid justify-items-center items-center;
     @media (min-width: 390px) {
-      height: 452px ;
+      height: 452px;
     }
   }
 

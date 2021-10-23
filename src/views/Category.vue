@@ -264,7 +264,7 @@ export default {
       });
     },
     getProducts() {
-    //   fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+      //   fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
       fetch("/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
@@ -273,25 +273,27 @@ export default {
         .then((json) => {
           const categoryArr = json.results.map((prod) => prod.properties).reverse();
 
-          this.productsCategories = categoryArr.map((category) => {
-            category.id = uuidv4();
+          const productsCategories = categoryArr.map((category) => {
+            try {
+              category.id = uuidv4();
 
-            category.name = category.Nazwa.title[0]
-              ? category.Nazwa.title[0].plain_text
-              : "";
-            delete category.Nazwa;
-            category.src = category.Główne_zdjęcie.files[0]
-              ? category.Główne_zdjęcie.files[0].file.url
-              : "";
-            category.link = category.Link.url ? category.Link.url : "";
-            delete category.Link;
+              category.name = category.Nazwa.title[0];
+              delete category.Nazwa;
+              category.src = category.Główne_zdjęcie.files[0];
+              category.link = category.Link.url;
+              delete category.Link;
 
-            return category;
+              return category;
+              // eslint-disable-next-line no-empty
+            } catch {}
           });
+          this.productsCategories = productsCategories.filter(
+            (category) => category !== undefined
+          );
 
           this.category = this.productsCategories.find((c) => c.name == this.title);
-        //   fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
-            fetch("/api/getProducts.php")
+          //   fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+          fetch("/api/getProducts.php")
             .then((res) => {
               if (res.ok) return res.json();
               else throw new Error("Wystąpił błąd");
@@ -299,25 +301,35 @@ export default {
             .then((json) => {
               this.category.products = this.category.Produkty.relation;
 
-              const products = this.category.products.map((prod) => {
-                let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
+              let products = this.category.products.map((prod) => {
+                try {
+                  let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
 
-                newProd = newProd.properties;
+                  newProd = newProd.properties;
 
-                newProd.id = uuidv4();
-                newProd.name = newProd.Nazwa.title[0].plain_text;
-                delete newProd.Nazwa;
-                newProd.link = newProd.Link.url;
-                delete newProd.Link;
-                newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
-                delete newProd.Zdjęcie_produktu;
-                newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
-                delete newProd.Tekst_alternatywny;
-                newProd.prosucer = newProd.Producent.rich_text[0].plain_text;
-                delete newProd.Producent;
+                  newProd.id = uuidv4();
+                  newProd.name = newProd.Nazwa.title[0].plain_text;
+                  delete newProd.Nazwa;
+                  newProd.link = newProd.Link.url;
+                  delete newProd.Link;
+                  newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
+                  delete newProd.Zdjęcie_produktu;
+                  newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
+                  delete newProd.Tekst_alternatywny;
+                  newProd.prosucer = newProd.Producent.rich_text[0].plain_text;
+                  delete newProd.Producent;
+                  newProd.short_desc = newProd.Krótki_opis.rich_text[0].plain_text;
+                  delete newProd.Krótki_opis;
+                  newProd.long_desc = newProd.Długi_opis.rich_text[0].plain_text;
+                  delete newProd.Długi_opis;
+                  newProd.technical_data = newProd.Dane_techniczne.relation[0].id;
+                  delete newProd.Dane_techniczne;
 
-                return newProd;
+                  return newProd;
+                  // eslint-disable-next-line no-empty
+                } catch {}
               });
+              products = products.filter((product) => product !== undefined);
 
               this.products = this.arraySplitting(products, 4);
               this.$store.commit("appearHiddenLoader", false);

@@ -14,7 +14,7 @@ $technicalData = curl_exec($ch);
 
 curl_close($ch);
 
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://maksym-stihl.infinityfreeapp.com');
 header('Content-Type: application/json');
     echo $technicalData;
 

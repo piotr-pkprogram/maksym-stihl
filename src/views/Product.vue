@@ -66,7 +66,8 @@ export default {
   },
   methods: {
     async getProduct() {
-      await fetch("/getCategories.php")
+      // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+      await fetch("/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
           else throw new Error("Wystąpił błąd");
@@ -84,7 +85,8 @@ export default {
           delete category.Zdjęcie_w_tle;
           this.category = category;
 
-          fetch("/getProducts.php")
+          //   fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+          fetch("/api/getProducts.php")
             .then((res) => {
               if (res.ok) return res.json();
               else throw new Error("Wystąpił błąd");
@@ -111,7 +113,8 @@ export default {
 
               this.product = product;
 
-              fetch("/getTechnicalData.php")
+              //   fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
+              fetch("/api/getTechnicalData.php")
                 .then((res) => {
                   if (res.ok) return res.json();
                   else throw new Error("Wystąpił błąd");
@@ -125,6 +128,9 @@ export default {
                     technicalData.wartosc_drgan_uchwyt.rich_text[0].plain_text;
                   this.technical_data = technicalData;
                 });
+              setTimeout(() => {
+                this.$store.commit("appearHiddenLoader", false);
+              }, 750);
             })
             .catch((err) => {
               throw new Error(err);
@@ -142,6 +148,8 @@ export default {
     if (this.$store.getters.isPhoneMenuOpen) {
       this.$store.commit("openClosePhoneMenu");
     }
+
+    this.$store.commit("appearHiddenLoader", true);
     next();
   },
 };

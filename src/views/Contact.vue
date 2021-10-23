@@ -226,6 +226,7 @@ export default {
       this.$store.commit("openClosePhoneMenu");
     }
     next();
+    this.$store.commit("appearHiddenLoader", true);
   },
   mounted() {
     this.delayOfIframe();
@@ -237,6 +238,10 @@ export default {
     const recaptchaJs = document.createElement("script");
     recaptchaJs.setAttribute("src", "https://www.google.com/recaptcha/api.js");
     document.head.appendChild(recaptchaJs);
+
+    setTimeout(() => {
+      this.$store.commit("appearHiddenLoader", false);
+    }, 250);
   },
 };
 </script>

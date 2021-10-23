@@ -110,7 +110,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  @apply h-28 hidden grid-flow-col items-center md:grid bg-F2 z-20 w-full relative z-30;
+  @apply h-28 hidden grid-flow-col items-center md:grid bg-F2 w-full relative z-40;
 
   @media (min-width: 1921px) {
     max-width: 1920px;
@@ -130,7 +130,7 @@ export default {
 }
 
 .phone-header {
-  @apply grid grid-flow-col grid-cols-3/4 fixed top-0 z-30 w-full md:hidden bg-white max-h-36 min-h-58.5 border-solid border-black border-b-2;
+  @apply grid grid-flow-col grid-cols-3/4 fixed top-0 z-40 w-full md:hidden bg-white max-h-36 min-h-58.5 border-solid border-black border-b-2;
 
   &__logo {
     @apply h-15;
@@ -151,7 +151,7 @@ export default {
 }
 
 .phone-menu {
-  @apply fixed right-0 bg-white h-full border-solid border-black border-l-2 transform translate-x-full hidden z-30;
+  @apply fixed right-0 bg-white h-full border-solid border-black border-l-2 transform translate-x-full hidden z-40;
   width: 163px;
   top: 4.85rem;
 

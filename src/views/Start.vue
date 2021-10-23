@@ -8,7 +8,6 @@
         loop
         poster="../assets/img/poster-bg-viedo.jpg"
         muted
-        preload
         playsinline
       >
         <source src="../assets/bg-video.mp4" type="video/mp4" />
@@ -152,7 +151,7 @@
         <img
           src="../assets/img/maksym-stihl.jpg"
           alt="Obsługa Maksym Stihl"
-          class="about-us__main-img"
+          class="about-us__main-img rounded-3xl"
         />
         <div class="about-us__desc-container">
           <p class="self-center about-us__desc">
@@ -222,7 +221,12 @@ export default {
     if (this.$store.getters.isPhoneMenuOpen) {
       this.$store.commit("openClosePhoneMenu");
     }
+
+    this.$store.commit("appearHiddenLoader", true);
     next();
+  },
+  created() {
+    this.$store.commit("appearHiddenLoader", true);
   },
 };
 </script>
@@ -327,7 +331,7 @@ export default {
   }
 
   &__slider-container {
-    @apply rounded-2xl p-2 xs:p-4 md:p-10 grid w-full items-center;
+    @apply rounded-2xl p-2 xs:p-4 md:p-10 grid w-full items-center relative;
     background-color: #e0e0e0;
     height: 381px;
     max-width: 783px;

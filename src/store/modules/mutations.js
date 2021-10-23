@@ -44,4 +44,18 @@ export default {
     setLocalStorage(_, item) {
         localStorage.setItem(item.name, item.value);
     },
+    appearHiddenLoader(_, switchLoader) {
+        const loader = document.querySelector('.loading');
+        const main = document.querySelector('main');
+
+        if (switchLoader) {
+            loader.classList.remove("animate-hidden");
+            loader.classList.add("grid");
+            main.classList.remove("overflow-visible", "h-auto");
+        } else {
+            loader.classList.add("animate-hidden");
+            loader.classList.remove("grid");
+            main.classList.add("overflow-visible", "h-auto")
+        }
+    }
 }

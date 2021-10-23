@@ -2,6 +2,7 @@
   <the-header></the-header>
   <the-header type="phone"></the-header>
   <main>
+    <loading></loading>
     <router-view v-slot="slotProps">
       <transition name="route" mode="out-in">
         <component :is="slotProps.Component"></component>
@@ -21,6 +22,7 @@ import TheHeader from "./components/main-components/header/Header.vue";
 import TheFooter from "./components/main-components/Footer.vue";
 import ButtonTop from "./components/main-components/ButtonTop.vue";
 import AgreeWidget from "./components/main-components/agreeWidget.vue";
+import Loading from "./components/main-components/Loading.vue";
 
 export default {
   components: {
@@ -28,6 +30,7 @@ export default {
     TheFooter,
     ButtonTop,
     AgreeWidget,
+    Loading,
   },
   methods: {
     menuAnimation() {
@@ -129,7 +132,8 @@ body {
 }
 
 main {
-  @apply mt-18 md:mt-0;
+  @apply mt-18 md:mt-0 relative overflow-hidden;
+  height: 65vh;
 }
 
 .route-enter-from {

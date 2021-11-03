@@ -268,11 +268,8 @@ export default {
     },
     getProducts() {
       if (IsSetMeta) {
-        let name = this.$route.params.categoryName;
-
-        const arr = name.split("");
-        name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-        this.category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+        const link = this.$route.params.categoryName;
+        this.category = JSON.parse(localStorage.getItem(`/${link}`));
 
         const products = this.category.products;
         this.products = this.arraySplitting(products, 4);
@@ -308,7 +305,8 @@ export default {
               (category) => category !== undefined
             );
 
-            this.category = this.productsCategories.find((c) => c.name == this.title);
+            const link = this.$route.params.categoryName;
+            this.category = this.productsCategories.find((c) => c.link == `/${link}`);
             // fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
             fetch("/api/getProducts.php")
               .then((res) => {
@@ -411,11 +409,8 @@ export default {
     next();
   },
   beforeRouteEnter(to, _from, next) {
-    let name = to.params.categoryName;
-
-    const arr = name.split("");
-    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+    const link = to.params.categoryName;
+    const category = JSON.parse(localStorage.getItem(`/${link}`));
 
     if (category) {
       addMetaTags(category);
@@ -425,11 +420,8 @@ export default {
     next();
   },
   beforeRouteUpdate(to, _from, next) {
-    let name = to.params.categoryName;
-
-    const arr = name.split("");
-    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+    const link = to.params.categoryName;
+    const category = JSON.parse(localStorage.getItem(`/${link}`));
 
     if (category) {
       addMetaTags(category);

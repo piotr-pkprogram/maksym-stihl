@@ -45,7 +45,7 @@ export default {
         localStorage.setItem(item.name, item.value);
     },
     setProdsLocalStorage(_, item) {
-        localStorage.setItem(item.name, JSON.stringify(item));
+        localStorage.setItem(item.link, JSON.stringify(item));
     },
     appearHiddenLoader(_, switchLoader) {
         const loader = document.querySelector('.loading');

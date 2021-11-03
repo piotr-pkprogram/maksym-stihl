@@ -70,15 +70,12 @@ export default {
   methods: {
     async getProduct() {
       if (IsSetMeta) {
-        let name = this.$route.params.categoryName;
-
-        const arr = name.split("");
-        name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-        this.category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+        const link = this.$route.params.categoryName;
+        this.category = JSON.parse(localStorage.getItem(`/${link}`));
 
         let prodName = this.$route.params.productName;
         this.product = this.category.products.find(
-          (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
+          (prod) => prod.link === `/${prodName}`
         );
 
         this.technical_data = this.product.technical_data;
@@ -107,7 +104,7 @@ export default {
             this.category = category;
 
             // fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
-              fetch("/api/getProducts.php")
+            fetch("/api/getProducts.php")
               .then((res) => {
                 if (res.ok) return res.json();
                 else throw new Error("Wystąpił błąd");
@@ -140,10 +137,11 @@ export default {
                   : "";
                 delete product.słowa_kluczowe;
 
+                addMetaTags(product);
                 this.product = product;
 
                 // fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
-                  fetch("/api/getTechnicalData.php")
+                fetch("/api/getTechnicalData.php")
                   .then((res) => {
                     if (res.ok) return res.json();
                     else throw new Error("Wystąpił błąd");
@@ -184,19 +182,14 @@ export default {
     next();
   },
   beforeRouteEnter(to, _from, next) {
-    let name = to.params.categoryName;
+    const link = to.params.categoryName;
+    const category = JSON.parse(localStorage.getItem(`/${link}`));
 
-    const arr = name.split("");
-    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+    if (category) {
+      let prodName = to.params.productName;
+      const product = category.products.find((prod) => prod.link === `/${prodName}`);
+      product.categoryName = link.replace(/-/g, " ");
 
-    let prodName = to.params.productName;
-    const product = category.products.find(
-      (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
-    );
-    product.categoryName = name.replace(/-/g, " ");
-
-    if (product) {
       addMetaTags(product);
       IsSetMeta = true;
     }
@@ -204,19 +197,14 @@ export default {
     next();
   },
   beforeRouteUpdate(to, _from, next) {
-    let name = to.params.categoryName;
+    const link = to.params.categoryName;
+    const category = JSON.parse(localStorage.getItem(`/${link}`));
 
-    const arr = name.split("");
-    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
-    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+    if (category) {
+      let prodName = to.params.productName;
+      const product = category.products.find((prod) => prod.link === `/${prodName}`);
+      product.categoryName = link.replace(/-/g, " ");
 
-    let prodName = to.params.productName;
-    const product = category.products.find(
-      (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
-    );
-    product.categoryName = name;
-
-    if (product) {
       addMetaTags(product);
       IsSetMeta = true;
     }

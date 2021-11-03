@@ -23,7 +23,7 @@ const routes = [{
             title: "Maksym STIHL - Serwis naprawczy oraz autoryzowany dealer firmy STIHL w Skwierzynie",
             metaTags: [{
                     name: 'description',
-                    content: ''
+                    content: 'Hej :). Jesteś ze Skiwerzyny i szukasz nowego narzędzia lub chcesz naprawić swoje? Zajrzyj. Może coś Cię zainteresuje.'
                 },
                 {
                     property: 'keywords',
@@ -35,7 +35,7 @@ const routes = [{
                 },
                 {
                     property: 'og:description',
-                    content: ''
+                    content: 'Hej :). Jesteś ze Skiwerzyny i szukasz nowego narzędzia lub chcesz naprawić swoje? Wejdź. Może coś Cię zainteresuje.'
                 },
                 {
                     property: 'og:site_name',
@@ -65,7 +65,7 @@ const routes = [{
             title: "Produkty | Maksym STIHL",
             metaTags: [{
                     name: 'description',
-                    content: ''
+                    content: 'Potrzepujesz nowych narzędzi? Chcesz znaleźć coś odpowiedniego dla siebie? Zapraszamy tutaj! Może znajdziesz coś dla siebie! W naszej ofercie posiadamy narzędzia wielu marek najlepszych (np. STIHL, czy VIKING) także na co czekasz?'
                 },
                 {
                     property: 'keywords',
@@ -77,7 +77,7 @@ const routes = [{
                 },
                 {
                     property: 'og:description',
-                    content: ''
+                    content: 'Potrzepujesz nowych narzędzi? Chcesz znaleźć coś odpowiedniego dla siebie? Zapraszamy tutaj! Może znajdziesz coś dla siebie! W naszej ofercie posiadamy narzędzia wielu marek najlepszych (np. STIHL, czy VIKING) także na co czekasz?'
                 },
                 {
                     property: 'og:site_name',
@@ -107,7 +107,7 @@ const routes = [{
             title: "Serwis Naprawczy | Maksym STIHL",
             metaTags: [{
                     name: 'description',
-                    content: ''
+                    content: 'Chcesz naprawić swoje narzędzia? Szukasz doświadczonego serwisu naprawczego? Zajrzyj tutaj. Jeśli jesteś ze Skiwerzyny lub okolic napewno Ci pomożemy :).'
                 },
                 {
                     property: 'keywords',
@@ -119,7 +119,7 @@ const routes = [{
                 },
                 {
                     property: 'og:description',
-                    content: ''
+                    content: 'Chcesz naprawić swoje narzędzia? Szukasz doświadczonego serwisu naprawczego? Zajrzyj tutaj. Jeśli jesteś ze Skiwerzyny lub okolic na pewno Ci pomożemy :).'
                 },
                 {
                     property: 'og:site_name',
@@ -149,7 +149,7 @@ const routes = [{
             title: "Kontakt | Maksym STIHL",
             metaTags: [{
                     name: 'description',
-                    content: ''
+                    content: 'Masz jakieś pytania lub potrzebujesz w czymś pomocy? Skontaktuj się z nami, a na pewno odpowiemy na twoje potrzeby :). '
                 },
                 {
                     property: 'keywords',
@@ -161,7 +161,7 @@ const routes = [{
                 },
                 {
                     property: 'og:description',
-                    content: ''
+                    content: 'Masz jakieś pytania lub potrzebujesz w czymś pomocy? Skontaktuj się z nami, a na pewno odpowiemy na twoje potrzeby :).'
                 },
                 {
                     property: 'og:site_name',

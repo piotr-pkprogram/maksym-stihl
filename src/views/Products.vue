@@ -285,7 +285,7 @@ export default {
 
           this.productsCategories = productsCategories.map((category) => {
             // fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
-            await fetch("/api/getProducts.php")
+            fetch("/api/getProducts.php")
               .then((res) => {
                 if (res.ok) return res.json();
                 else throw new Error("Wystąpił błąd");

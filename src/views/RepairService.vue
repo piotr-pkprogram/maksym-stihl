@@ -4,11 +4,10 @@
       <h2 class="what-we-fix__fix-title">Naprawiamy</h2>
       <div class="what-we-fix__fix-continer">
         <div class="what-we-fix__row" v-for="(categoryRow, i) in categories" :key="i">
-          <router-link
+          <button
             class="what-we-fix__category"
             v-for="(category, j) in categoryRow"
             :key="category.id"
-            :to="category.link"
             :class="
               categoryRow.length === 3 && j === 0
                 ? 'justify-self-end'
@@ -62,7 +61,7 @@
                 {{ category.desc }}
               </span>
             </div>
-          </router-link>
+          </button>
         </div>
       </div>
     </section>
@@ -575,19 +574,32 @@
           />
         </defs>
       </svg>
-      <router-link class="fill-out-the-form__cta" to="/serwis-naprawczy#formularz"
-        >Wypełnij formularz</router-link
-      >
+      <button class="fill-out-the-form__cta" @click="switchForm">
+        Wypełnij formularz
+      </button>
     </section>
+    <teleport to="body">
+      <transition name="route" mode="out-in">
+        <service-form v-if="isFormVisable" @close="switchForm"></service-form>
+      </transition>
+    </teleport>
   </div>
 </template>
 
 <script>
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-useless-escape */
+import ServiceForm from "../components/main-components/RepairServiceForm.vue";
+
 export default {
+  components: {
+    ServiceForm,
+  },
   data() {
     return {
       fixCategories: this.$store.getters.fixCategories,
       processElements: this.$store.getters.processElements,
+      isFormVisable: false,
     };
   },
   computed: {
@@ -597,6 +609,9 @@ export default {
     },
   },
   methods: {
+    switchForm() {
+      this.isFormVisable = !this.isFormVisable;
+    },
     arraySplitting(arr, chunk) {
       let chunkedArray = [];
       let index = 0;
@@ -615,7 +630,7 @@ export default {
     this.$store.commit("appearHiddenLoader", true);
     next();
   },
-  created() {
+  mounted() {
     setTimeout(() => {
       this.$store.commit("appearHiddenLoader", false);
     }, 500);
@@ -655,7 +670,7 @@ export default {
   }
 
   &__category {
-    @apply relative grid items-end;
+    @apply relative grid items-end cursor-default;
     justify-self: center !important;
     width: 250.6px;
     height: 142.368px;
@@ -882,6 +897,13 @@ export default {
     @media (min-width: 710px) {
       @apply block;
     }
+  }
+}
+
+.form__input--error {
+  @apply border-red-600 text-red-600;
+  &::placeholder {
+    @apply text-red-600;
   }
 }
 </style>

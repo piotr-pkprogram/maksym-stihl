@@ -22,7 +22,7 @@ export default [{
         desc: "",
         link: "/serwis-naprawczy/#formularz?firstOpt=myjki-ciśnieniowe",
         src: require("../../../assets/img/co-naprawiamy/mężczyzna-myjący-schody-myjką-ciśnieniową.jpg"),
-        alt: "Mężczyzna mujący kamienne schpdy w jego ogrodzie myjką ciśnieniową marki STIHL. Zjednej strony schodów rosną kszaki, a resztę otacza trawa i małe rośliny"
+        alt: "Mężczyzna myjący kamienne schody w jego ogrodzie myjką ciśnieniową marki STIHL. Zjednej strony schodów rosną kszaki, a resztę otacza trawa i małe rośliny"
     },
     {
         id: uuidv4(),

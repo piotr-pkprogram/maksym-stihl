@@ -55,6 +55,9 @@
 
 <script>
 // import { v4 as uuidv4 } from "uuid";
+import addMetaTags from "./metaFunctions.js";
+
+let IsSetMeta = false;
 
 export default {
   data() {
@@ -66,79 +69,107 @@ export default {
   },
   methods: {
     async getProduct() {
-      // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
-      await fetch("/api/getCategories.php")
-        .then((res) => {
-          if (res.ok) return res.json();
-          else throw new Error("Wystąpił błąd");
-        })
-        .then((json) => {
-          const categoryArr = json.results
-            .map((category) => category.properties)
-            .reverse();
+      if (IsSetMeta) {
+        let name = this.$route.params.categoryName;
 
-          const category = categoryArr.find(
-            (c) => c.Link.url === `/${this.$route.params.categoryName}`
-          );
+        const arr = name.split("");
+        name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+        this.category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
 
-          category.bg_image = category.Zdjęcie_w_tle.files[0].file.url;
-          delete category.Zdjęcie_w_tle;
-          this.category = category;
+        let prodName = this.$route.params.productName;
+        this.product = this.category.products.find(
+          (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
+        );
 
-          //   fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
-          fetch("/api/getProducts.php")
-            .then((res) => {
-              if (res.ok) return res.json();
-              else throw new Error("Wystąpił błąd");
-            })
-            .then((json) => {
-              const products = this.category.Produkty.relation.map((relProd) => {
-                return json.results.find((prod) => prod.id === relProd.id).properties;
-              });
+        this.technical_data = this.product.technical_data;
 
-              const product = products.find(
-                (prod) => prod.Link.url === `/${this.$route.params.productName}`
-              );
+        setTimeout(() => {
+          this.$store.commit("appearHiddenLoader", false);
+        }, 750);
+      } else {
+        // await fetch("/api/getCategories.php")
+        await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+          .then((res) => {
+            if (res.ok) return res.json();
+            else throw new Error("Wystąpił błąd");
+          })
+          .then((json) => {
+            const categoryArr = json.results
+              .map((category) => category.properties)
+              .reverse();
 
-              product.name = product.Nazwa.title[0].plain_text;
-              delete product.Nazwa;
-              product.src = product.Zdjęcie_produktu.files[0].file.url;
-              delete product.Zdjęcie_produktu;
-              product.alt = product.Tekst_alternatywny.rich_text[0].plain_text;
-              delete product.Tekst_alternatywny;
-              product.short_desc = product.Krótki_opis.rich_text[0].plain_text;
-              delete product.Krótki_opis;
-              product.long_desc = product.Długi_opis.rich_text[0].plain_text;
-              delete product.Długi_opis;
+            const category = categoryArr.find(
+              (c) => c.Link.url === `/${this.$route.params.categoryName}`
+            );
 
-              this.product = product;
+            category.bg_image = category.Zdjęcie_w_tle.files[0].file.url;
+            delete category.Zdjęcie_w_tle;
+            this.category = category;
 
-              //   fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
-              fetch("/api/getTechnicalData.php")
-                .then((res) => {
-                  if (res.ok) return res.json();
-                  else throw new Error("Wystąpił błąd");
-                })
-                .then((json) => {
-                  const technicalData = json.results.find(
-                    (data) => data.id === this.product.Dane_techniczne.relation[0].id
-                  ).properties;
-
-                  technicalData.wartosc_drgan_uchwyt =
-                    technicalData.wartosc_drgan_uchwyt.rich_text[0].plain_text;
-                  this.technical_data = technicalData;
+            //   fetch("/api/getProducts.php")
+            fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+              .then((res) => {
+                if (res.ok) return res.json();
+                else throw new Error("Wystąpił błąd");
+              })
+              .then((json) => {
+                const products = this.category.Produkty.relation.map((relProd) => {
+                  return json.results.find((prod) => prod.id === relProd.id).properties;
                 });
-              setTimeout(() => {
-                this.$store.commit("appearHiddenLoader", false);
-              }, 750);
-            })
-            .catch((err) => {
-              throw new Error(err);
-            });
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
+
+                const product = products.find(
+                  (prod) => prod.Link.url === `/${this.$route.params.productName}`
+                );
+
+                product.name = product.Nazwa.title[0].plain_text;
+                delete product.Nazwa;
+                product.src = product.Zdjęcie_produktu.files[0].file.url;
+                delete product.Zdjęcie_produktu;
+                product.alt = product.Tekst_alternatywny.rich_text[0].plain_text;
+                delete product.Tekst_alternatywny;
+                product.short_desc = product.Krótki_opis.rich_text[0].plain_text;
+                delete product.Krótki_opis;
+                product.long_desc = product.Długi_opis.rich_text[0].plain_text;
+                delete product.Długi_opis;
+                product.meta_desc = category.meta_opis.rich_text[0]
+                  ? product.meta_opis.rich_text[0].plain_text
+                  : "";
+                delete product.meta_opis;
+                product.keywords = product.słowa_kluczowe.rich_text[0]
+                  ? product.słowa_kluczowe.rich_text[0].plain_text
+                  : "";
+                delete product.słowa_kluczowe;
+
+                this.product = product;
+
+                //   fetch("/api/getTechnicalData.php")
+                fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
+                  .then((res) => {
+                    if (res.ok) return res.json();
+                    else throw new Error("Wystąpił błąd");
+                  })
+                  .then((json) => {
+                    const technicalData = json.results.find(
+                      (data) => data.id === this.product.Dane_techniczne.relation[0].id
+                    ).properties;
+
+                    technicalData.wartosc_drgan_uchwyt =
+                      technicalData.wartosc_drgan_uchwyt.rich_text[0].plain_text;
+
+                    this.technical_data = technicalData;
+                  });
+                setTimeout(() => {
+                  this.$store.commit("appearHiddenLoader", false);
+                }, 750);
+              })
+              .catch((err) => {
+                throw new Error(err);
+              });
+          })
+          .catch((err) => {
+            throw new Error(err);
+          });
+      }
     },
   },
   created() {
@@ -150,6 +181,46 @@ export default {
     }
 
     this.$store.commit("appearHiddenLoader", true);
+    next();
+  },
+  beforeRouteEnter(to, _from, next) {
+    let name = to.params.categoryName;
+
+    const arr = name.split("");
+    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+
+    let prodName = to.params.productName;
+    const product = category.products.find(
+      (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
+    );
+    product.categoryName = name.replace(/-/g, " ");
+
+    if (product) {
+      addMetaTags(product);
+      IsSetMeta = true;
+    }
+
+    next();
+  },
+  beforeRouteUpdate(to, _from, next) {
+    let name = to.params.categoryName;
+
+    const arr = name.split("");
+    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+
+    let prodName = to.params.productName;
+    const product = category.products.find(
+      (prod) => prod.name.toLowerCase() === prodName.replace(/-/g, " ")
+    );
+    product.categoryName = name;
+
+    if (product) {
+      addMetaTags(product);
+      IsSetMeta = true;
+    }
+
     next();
   },
 };

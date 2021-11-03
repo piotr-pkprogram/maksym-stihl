@@ -7,7 +7,7 @@
     <text-links
       classes="agree-widget__privacy-policy"
       :IsRouterLink="true"
-      to="/polityka-prywatności"
+      to="/polityka-prywatnosci"
     >
       Polityka Prywatności
     </text-links>

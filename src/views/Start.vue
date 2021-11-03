@@ -100,8 +100,8 @@
       <img src="../assets/img/down-arrow.svg" alt="" class="stihl-dealere__arrow" />
       <base-button
         to="/#o-nas"
-        type="router-link"
         classes="orange-btn rounded-full text-f6"
+        @click="goTo('about')"
         >Więcej o Nas</base-button
       >
     </section>
@@ -145,7 +145,7 @@
         <base-slider classes="our-products__slider"></base-slider>
       </div>
     </section>
-    <section class="about-us-group">
+    <section class="about-us-group" ref="about">
       <section class="about-us">
         <h2 class="about-us__title">O Nas</h2>
         <img
@@ -216,6 +216,14 @@ import BaseSlider from "../components/main-components/slider/Slider.vue";
 export default {
   components: {
     BaseSlider,
+  },
+  methods: {
+    goTo(refName) {
+      const element = this.$refs[refName];
+      const top = element.offsetTop;
+
+      window.scrollTo(0, top);
+    },
   },
   beforeRouteLeave(_, __, next) {
     if (this.$store.getters.isPhoneMenuOpen) {

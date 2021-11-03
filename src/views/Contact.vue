@@ -11,8 +11,8 @@
         ></fiframe>
       </div>
       <div class="contact__columns">
-        <form action="" class="contact__form" @submit.prevent="validationForm">
-          <span class="contact__cta">Wyślij wiadomość</span>
+        <form action="" class="form" @submit.prevent="validationForm">
+          <span class="form__cta">Wyślij wiadomość</span>
           <base-input
             placeholder="Imię*"
             type="text"
@@ -22,7 +22,7 @@
           ></base-input>
           <span :class="chatBubbleNameClasses"> *To pole musi zostać wypełnione! </span>
           <base-input
-            classes="contact__input contact__input--topic"
+            classes="form__input form__input--topic row-2"
             placeholder="Temat"
             type="text"
             name="topic"
@@ -38,7 +38,7 @@
             *To pole musi zostać wypełnione!
           </span>
           <base-input
-            classes="contact__input contact__input--message"
+            classes="form__input form__input--message"
             placeholder="Wiadomość"
             type="textarea"
             name="message"
@@ -47,9 +47,9 @@
             class="g-recaptcha"
             data-sitekey="6LcmZr0cAAAAAFTvRtM2dIQ10JoPFMP6WVVMBtze"
           ></div>
-          <base-button classes="contact__send orange-btn rounded-full" type="submit"
+          <base-button classes="form__send orange-btn rounded-full" type="submit"
             >Wyślij
-            <svg viewBox="25 25 50 50" class="contact__loader" ref="loader">
+            <svg viewBox="25 25 50 50" class="form__loader" ref="loader">
               <circle cx="50" cy="50" r="20"></circle>
             </svg>
           </base-button>
@@ -64,7 +64,7 @@
       <img
         src="../assets/img/budynek-sklepu-maksym-stil-od-zewnątrz.jpg"
         alt="Lekko pomarańczowy budynek sklepu Maksym Stihl od zewnątrz. Pomieszczenie ma dwa okna, a nad nimi napis 'Stihl Maksym Stihl'"
-        class="contact__img"
+        class="form__img"
       />
     </section>
   </div>
@@ -86,9 +86,10 @@ export default {
   computed: {
     nameInputClasses() {
       return {
-        contact__input: true,
-        "contact__input--name": true,
-        "contact__input--error": !this.isNameValueCorrect,
+        form__input: true,
+        "form__input--name": true,
+        "row-2": true,
+        "form__input--error": !this.isNameValueCorrect,
       };
     },
     chatBubbleNameClasses() {
@@ -96,9 +97,9 @@ export default {
     },
     emailInputClasses() {
       return {
-        contact__input: true,
-        "contact__input--email": true,
-        "contact__input--error": !this.isEmailValueCorrect,
+        form__input: true,
+        "form__input--email": true,
+        "form__input--error": !this.isEmailValueCorrect,
       };
     },
     chatBubbleEmailClasses() {
@@ -111,7 +112,7 @@ export default {
   },
   methods: {
     validateName() {
-      const inputs = document.querySelectorAll(".contact__input");
+      const inputs = document.querySelectorAll(".form__input");
 
       if (inputs[0].value.trim() === "") {
         this.isNameValueCorrect = false;
@@ -120,7 +121,7 @@ export default {
       }
     },
     validateEmail() {
-      const inputs = document.querySelectorAll(".contact__input");
+      const inputs = document.querySelectorAll(".form__input");
       const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
       if (inputs[2].value.trim() === "") {
@@ -143,8 +144,8 @@ export default {
     sendEmail(form) {
       const loader = this.$refs.loader;
       const loaderMessage = this.$refs.loaderMessage;
-      const submitBtn = document.querySelector(".contact__send");
-      const inputs = form.querySelectorAll(".contact__input");
+      const submitBtn = document.querySelector(".form__send");
+      const inputs = form.querySelectorAll(".form__input");
 
       submitBtn.setAttribute("disabled", "disabled");
       loaderMessage.classList.remove("block");
@@ -184,7 +185,9 @@ export default {
             if (!navigator.onLine) {
               message =
                 "Brak połączenia z internetem. Prosimy połączyć się z internetem i wysłać wiadomość ponownie.";
-            } else if (err.text === "The g-recaptcha-response parameter not found") {
+            } else if (
+              err.text === "reCAPTCHA: The g-recaptcha-response parameter not found"
+            ) {
               message =
                 "Wiadmość nie została wysłana. Potwierdź, że nie jesteś robotem i spróbuj ponownie :).";
             }
@@ -225,23 +228,26 @@ export default {
     if (this.$store.getters.isPhoneMenuOpen) {
       this.$store.commit("openClosePhoneMenu");
     }
-    next();
     this.$store.commit("appearHiddenLoader", true);
+    const existRecaptchaJs = document.querySelectorAll(
+      'script[src="https://www.gstatic.com/recaptcha/releases/UrRmT3mBwY326qQxUfVlHu1P/recaptcha__pl.js"]'
+    );
+    existRecaptchaJs.forEach((script) => {
+      script.remove();
+    });
+
+    this.$store.commit("appearHiddenLoader", true);
+    next();
   },
   mounted() {
     this.delayOfIframe();
-    const existRecaptchaJs = document.querySelector(
-      'script[src="https://www.google.com/recaptcha/api.js"]'
-    );
-    existRecaptchaJs?.remove();
-
-    const recaptchaJs = document.createElement("script");
-    recaptchaJs.setAttribute("src", "https://www.google.com/recaptcha/api.js");
-    document.head.appendChild(recaptchaJs);
 
     setTimeout(() => {
       this.$store.commit("appearHiddenLoader", false);
-    }, 250);
+      const recaptchaJs = document.createElement("script");
+      recaptchaJs.setAttribute("src", "https://www.google.com/recaptcha/api.js");
+      document.head.appendChild(recaptchaJs);
+    }, 500);
   },
 };
 </script>
@@ -256,113 +262,17 @@ export default {
   &__columns {
     @apply flex flex-wrap items-center justify-center p-2;
   }
-
-  &__form {
-    @apply rounded-3xl w-full grid gap-x-4 gap-6 p-2 md:p-4 justify-items-center justify-center;
-    @media (min-width: 475px) {
-      @apply bg-white;
-      max-width: 512px;
-      min-height: 574px;
-      box-shadow: 0 0 100px 5px rgba(255, 97, 0, 0.4);
-    }
-  }
-
-  &__cta {
-    @apply h-min w-full col-1/2 text-center font-medium text-2xl self-center;
-  }
-
-  &__input {
-    @apply h-min;
-    &--name {
-      @apply w-full mr-0 row-2;
-      max-width: 171px;
-      @media (min-width: 475px) {
-        @apply mr-8;
-      }
-    }
-    &--topic {
-      @apply w-full row-2;
-      max-width: 171px;
-    }
-    &--email {
-      @apply col-1/2;
-      max-width: 393px;
-    }
-    &--message {
-      @apply col-1/2;
-      max-width: 393px;
-      min-height: 200px;
-      @media (min-width: 475px) {
-        min-height: 265px;
-      }
-    }
-
-    &--error {
-      @apply border-red-600 text-red-600;
-      &::placeholder {
-        @apply text-red-600;
-      }
-    }
-  }
-
-  &__send {
-    @apply justify-self-start relative;
-    min-width: 113px !important;
-  }
-
-  &__loader {
-    @apply hidden bg-cover z-10 absolute top-1 left-30 border-transparent border-3 border-solid;
-    width: 2em;
-    transform-origin: center;
-    animation: rotate 2s linear infinite;
-
-    & circle {
-      fill: none;
-      stroke: #ff6100;
-      stroke-width: 2;
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-      stroke-linecap: round;
-      animation: dash 1.5s ease-in-out infinite;
-    }
-  }
-}
-
-.chat-bubble {
-  @apply text-red-600 hidden col-1/2 text-base font-bold bg-white w-full rounded-lg justify-self-start;
-}
-
-.g-recaptcha {
-  @apply justify-self-start col-1/2;
-}
-
-.loader-message {
-  @apply text-black w-full col-1/2 p-2 bg-f6 border-2 rounded-lg hidden;
-  max-width: 393px;
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 200;
-    stroke-dashoffset: -35px;
-  }
-  100% {
-    stroke-dashoffset: -125px;
-  }
 }
 
 .place-img {
   @apply flex flex-wrap justify-center items-center p-3;
   height: 630px;
+}
+
+.form__input--error {
+  @apply border-red-600 text-red-600;
+  &::placeholder {
+    @apply text-red-600;
+  }
 }
 </style>

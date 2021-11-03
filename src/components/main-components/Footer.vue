@@ -38,7 +38,7 @@
       <footer-block
         title="Polityka Prywatności"
         :titleIsLink="true"
-        link="/polityka-prywatności"
+        link="/polityka-prywatnosci"
         classes="footer__blocks md:row-start-2 md:col-start-2"
       ></footer-block>
       <p class="footer__copyright md:row-start-2 md:col-start-3">

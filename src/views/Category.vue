@@ -204,6 +204,9 @@
 <script>
 import BaseFilter from "../components/main-components/Filter.vue";
 import { v4 as uuidv4 } from "uuid";
+import addMetaTags from "./metaFunctions.js";
+
+let IsSetMeta = false;
 
 export default {
   components: {
@@ -264,106 +267,133 @@ export default {
       });
     },
     getProducts() {
-      //   fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
-      fetch("/api/getCategories.php")
-        .then((res) => {
-          if (res.ok) return res.json();
-          else throw new Error("Wystąpił błąd");
-        })
-        .then((json) => {
-          const categoryArr = json.results.map((prod) => prod.properties).reverse();
+      if (IsSetMeta) {
+        let name = this.$route.params.categoryName;
 
-          const productsCategories = categoryArr.map((category) => {
-            try {
-              category.id = uuidv4();
+        const arr = name.split("");
+        name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+        this.category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
 
-              category.name = category.Nazwa.title[0];
-              delete category.Nazwa;
-              category.src = category.Główne_zdjęcie.files[0];
-              category.link = category.Link.url;
-              delete category.Link;
+        const products = this.category.products;
+        this.products = this.arraySplitting(products, 4);
 
-              return category;
-              // eslint-disable-next-line no-empty
-            } catch {}
-          });
-          this.productsCategories = productsCategories.filter(
-            (category) => category !== undefined
-          );
+        setTimeout(() => {
+          this.$store.commit("appearHiddenLoader", false);
+        }, 750);
+      } else {
+        //fetch("/api/getCategories.php")
+        fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+          .then((res) => {
+            if (res.ok) return res.json();
+            else throw new Error("Wystąpił błąd");
+          })
+          .then((json) => {
+            const categoryArr = json.results.map((prod) => prod.properties).reverse();
 
-          this.category = this.productsCategories.find((c) => c.name == this.title);
-          //   fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
-          fetch("/api/getProducts.php")
-            .then((res) => {
-              if (res.ok) return res.json();
-              else throw new Error("Wystąpił błąd");
-            })
-            .then((json) => {
-              this.category.products = this.category.Produkty.relation;
+            const productsCategories = categoryArr.map((category) => {
+              try {
+                category.id = uuidv4();
 
-              let products = this.category.products.map((prod) => {
-                try {
-                  let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
+                category.name = category.Nazwa.title[0].plain_text;
+                delete category.Nazwa;
+                category.src = category.Główne_zdjęcie.files[0].file.url;
+                category.link = category.Link.url;
+                delete category.Link;
 
-                  newProd = newProd.properties;
-
-                  newProd.id = uuidv4();
-                  newProd.name = newProd.Nazwa.title[0].plain_text;
-                  delete newProd.Nazwa;
-                  newProd.link = newProd.Link.url;
-                  delete newProd.Link;
-                  newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
-                  delete newProd.Zdjęcie_produktu;
-                  newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
-                  delete newProd.Tekst_alternatywny;
-                  newProd.prosucer = newProd.Producent.rich_text[0].plain_text;
-                  delete newProd.Producent;
-                  newProd.short_desc = newProd.Krótki_opis.rich_text[0].plain_text;
-                  delete newProd.Krótki_opis;
-                  newProd.long_desc = newProd.Długi_opis.rich_text[0].plain_text;
-                  delete newProd.Długi_opis;
-                  newProd.technical_data = newProd.Dane_techniczne.relation[0].id;
-                  delete newProd.Dane_techniczne;
-
-                  return newProd;
-                  // eslint-disable-next-line no-empty
-                } catch {}
-              });
-              products = products.filter((product) => product !== undefined);
-
-              this.products = this.arraySplitting(products, 4);
-              this.$store.commit("appearHiddenLoader", false);
-            })
-            .catch((err) => {
-              setTimeout(() => {
-                this.$store.commit("appearHiddenLoader", false);
-                if (!window.navigator.onLine) {
-                  this.error_visable.online = true;
-                  this.$refs.prod_container.classList.add("h-120");
-                } else {
-                  this.$refs.prod_container.classList.add("h-120");
-                  this.error_visable.server = true;
-                  this.error_status = err.status;
-                }
-              }, 750);
+                return category;
+                // eslint-disable-next-line no-empty
+              } catch {}
             });
-        })
-        .catch((err) => {
-          setTimeout(() => {
-            this.$store.commit("appearHiddenLoader", false);
-            if (!window.navigator.onLine) {
-              this.error_visable.online = true;
-              this.$refs.prod_container.classList.add("h-120");
-            } else {
-              this.$refs.prod_container.classList.add("h-120");
-              this.error_visable.server = true;
-              this.error_status = err.status;
-            }
-          }, 500);
-        });
+            this.productsCategories = productsCategories.filter(
+              (category) => category !== undefined
+            );
+
+            this.category = this.productsCategories.find((c) => c.name == this.title);
+            //   fetch("/api/getProducts.php")
+            fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+              .then((res) => {
+                if (res.ok) return res.json();
+                else throw new Error("Wystąpił błąd");
+              })
+              .then((json) => {
+                this.category.products = this.category.Produkty.relation;
+
+                let products = this.category.products.map((prod) => {
+                  try {
+                    let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
+
+                    newProd = newProd.properties;
+
+                    newProd.id = uuidv4();
+                    newProd.name = newProd.Nazwa.title[0].plain_text;
+                    delete newProd.Nazwa;
+                    newProd.link = newProd.Link.url;
+                    delete newProd.Link;
+                    newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
+                    delete newProd.Zdjęcie_produktu;
+                    newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
+                    delete newProd.Tekst_alternatywny;
+                    newProd.producer = newProd.Producent.rich_text[0].plain_text;
+                    delete newProd.Producent;
+                    newProd.short_desc = newProd.Krótki_opis.rich_text[0].plain_text;
+                    delete newProd.Krótki_opis;
+                    newProd.long_desc = newProd.Długi_opis.rich_text[0].plain_text;
+                    delete newProd.Długi_opis;
+                    newProd.technical_data = newProd.Dane_techniczne.relation[0].id;
+                    delete newProd.Dane_techniczne;
+                    newProd.meta_desc = newProd.meta_opis.rich_text[0]
+                      ? newProd.meta_opis.rich_text[0].plain_text
+                      : "";
+                    delete newProd.meta_opis;
+                    newProd.keywords = newProd.słowa_kluczowe.rich_text[0]
+                      ? newProd.słowa_kluczowe.rich_text[0].plain_text
+                      : "";
+                    delete newProd.słowa_kluczowe;
+
+                    return newProd;
+                    // eslint-disable-next-line no-empty
+                  } catch {}
+                });
+                products = products.filter((product) => product !== undefined);
+
+                this.products = this.arraySplitting(products, 4);
+                this.$store.commit("appearHiddenLoader", false);
+
+                addMetaTags(this.category);
+              })
+              .catch((err) => {
+                console.log(err);
+                setTimeout(() => {
+                  this.$store.commit("appearHiddenLoader", false);
+                  if (!window.navigator.onLine) {
+                    this.error_visable.online = true;
+                    this.$refs.prod_container.classList.add("h-120");
+                  } else {
+                    this.$refs.prod_container.classList.add("h-120");
+                    this.error_visable.server = true;
+                    this.error_status = err.status;
+                  }
+                }, 750);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+            setTimeout(() => {
+              this.$store.commit("appearHiddenLoader", false);
+              if (!window.navigator.onLine) {
+                this.error_visable.online = true;
+                this.$refs.prod_container.classList.add("h-120");
+              } else {
+                this.$refs.prod_container.classList.add("h-120");
+                this.error_visable.server = true;
+                this.error_status = err.status;
+              }
+            }, 500);
+          });
+      }
     },
   },
-  created() {
+  mounted() {
     let name = this.$route.params.categoryName;
 
     const arr = name.split("");
@@ -378,6 +408,34 @@ export default {
     }
 
     this.$store.commit("appearHiddenLoader", true);
+    next();
+  },
+  beforeRouteEnter(to, _from, next) {
+    let name = to.params.categoryName;
+
+    const arr = name.split("");
+    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+
+    if (category) {
+      addMetaTags(category);
+      IsSetMeta = true;
+    }
+
+    next();
+  },
+  beforeRouteUpdate(to, _from, next) {
+    let name = to.params.categoryName;
+
+    const arr = name.split("");
+    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el)).join("");
+    const category = JSON.parse(localStorage.getItem(name.replace(/-/g, " ")));
+
+    if (category) {
+      addMetaTags(category);
+      IsSetMeta = true;
+    }
+
     next();
   },
 };

@@ -184,8 +184,8 @@ export default {
   },
   methods: {
     async getProducts() {
-      // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
-      await fetch("/api/getCategories.php")
+      // await fetch("/api/getCategories.php")
+      await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
           else throw new Error("Wystąpił błąd");
@@ -193,26 +193,26 @@ export default {
         .then((json) => {
           const categoryArr = json.results.map((prod) => prod.properties).reverse();
 
-          this.slides = categoryArr.map((category) => {
-            category.id = uuidv4();
+          const productsCategories = categoryArr.map((category) => {
+            try {
+              category.id = uuidv4();
 
-            category.name = category.Nazwa.title[0]
-              ? category.Nazwa.title[0].plain_text
-              : "";
-            delete category.Nazwa;
-            category.src = category.Główne_zdjęcie.files[0]
-              ? category.Główne_zdjęcie.files[0].file.url
-              : "";
-            delete category.Główne_zdjęcie;
-            category.link = category.Link.url ? category.Link.url : "";
-            delete category.Link;
-            category.bg_image = category.Zdjęcie_w_tle.files[0]
-              ? category.Zdjęcie_w_tle.files[0].file.url
-              : "";
-            delete category.Zdjęcie_w_tle;
+              category.name = category.Nazwa.title[0].plain_text;
+              delete category.Nazwa;
+              category.src = category.Główne_zdjęcie.files[0].file.url;
+              delete category.Główne_zdjęcie;
+              category.link = category.Link.url;
+              delete category.Link;
+              category.bg_image = category.Zdjęcie_w_tle.files[0].file.url;
+              delete category.Zdjęcie_w_tle;
+              category.products = category.Produkty.relation[0].id;
+              delete category.Produkty;
 
-            return category;
+              return category;
+              // eslint-disable-next-line no-empty
+            } catch {}
           });
+          this.slides = productsCategories.filter((category) => category !== undefined);
           setTimeout(() => {
             this.$store.commit("appearHiddenLoader", false);
           }, 250);
@@ -230,7 +230,7 @@ export default {
         });
     },
   },
-  created() {
+  mounted() {
     this.getProducts();
   },
 };

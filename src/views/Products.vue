@@ -95,7 +95,7 @@
       >
         <img
           :src="category.src"
-          :alt="category.name"
+          :alt="category.alt"
           class="products-categories__bg-image rounded-3xl"
         />
         <div class="products-categories__info">
@@ -241,8 +241,8 @@ export default {
       });
     },
     async getProducts() {
-      // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
-      await fetch("/api/getCategories.php")
+      // await fetch("/api/getCategories.php")
+      await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
           else throw new Error("Wystąpił błąd");
@@ -250,27 +250,115 @@ export default {
         .then((json) => {
           const categoryArr = json.results.map((prod) => prod.properties).reverse();
 
-          this.productsCategories = categoryArr.map((category) => {
+          let productsCategories = categoryArr.map((category) => {
             try {
               category.id = uuidv4();
 
-              category.name = category.Nazwa.title[0];
+              category.name = category.Nazwa.title[0].plain_text;
               delete category.Nazwa;
-              category.src = category.Główne_zdjęcie.files[0];
+              category.src = category.Główne_zdjęcie.files[0].file.url;
               delete category.Główne_zdjęcie;
               category.link = category.Link.url;
               delete category.Link;
-              category.bg_image = category.Zdjęcie_w_tle.files[0];
+              category.bg_image = category.Zdjęcie_w_tle.files[0].file.url;
               delete category.Zdjęcie_w_tle;
-              category.products = category.Produkty.relation[0].id;
+              category.products = category.Produkty.relation;
               delete category.Produkty;
+              category.alt = category.Tekst_alternatywny.rich_text[0].plain_text;
+              delete category.Tekst_alternatywny;
+              category.meta_desc = category.meta_opis.rich_text[0]
+                ? category.meta_opis.rich_text[0].plain_text
+                : "";
+              delete category.meta_opis;
+              category.keywords = category.słowa_kluczowe.rich_text[0]
+                ? category.słowa_kluczowe.rich_text[0].plain_text
+                : "";
+              delete category.słowa_kluczowe;
 
               return category;
               // eslint-disable-next-line no-empty
             } catch {}
           });
+          productsCategories = productsCategories.filter(
+            (category) => category !== undefined
+          );
+
+          this.productsCategories = productsCategories.map((category) => {
+            fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+              .then((res) => {
+                if (res.ok) return res.json();
+                else throw new Error("Wystąpił błąd");
+              })
+              .then((json) => {
+                let products = category.products.map((prod) => {
+                  try {
+                    let newProd = json.results.find((oldProd) => oldProd.id === prod.id);
+
+                    newProd = newProd.properties;
+
+                    newProd.id = uuidv4();
+                    newProd.name = newProd.Nazwa.title[0].plain_text;
+                    delete newProd.Nazwa;
+                    newProd.link = newProd.Link.url;
+                    delete newProd.Link;
+                    newProd.src = newProd.Zdjęcie_produktu.files[0].file.url;
+                    delete newProd.Zdjęcie_produktu;
+                    newProd.alt = newProd.Tekst_alternatywny.rich_text[0].plain_text;
+                    delete newProd.Tekst_alternatywny;
+                    newProd.producer = newProd.Producent.rich_text[0].plain_text;
+                    delete newProd.Producent;
+                    newProd.short_desc = newProd.Krótki_opis.rich_text[0].plain_text;
+                    delete newProd.Krótki_opis;
+                    newProd.long_desc = newProd.Długi_opis.rich_text[0].plain_text;
+                    delete newProd.Długi_opis;
+                    newProd.meta_desc = newProd.meta_opis.rich_text[0]
+                      ? newProd.meta_opis.rich_text[0].plain_text
+                      : "";
+                    delete newProd.meta_opis;
+                    newProd.keywords = newProd.słowa_kluczowe.rich_text[0]
+                      ? newProd.słowa_kluczowe.rich_text[0].plain_text
+                      : "";
+                    delete newProd.słowa_kluczowe;
+
+                    //   fetch("/api/getTechnicalData.php")
+                    fetch(
+                      "http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php"
+                    )
+                      .then((res) => {
+                        if (res.ok) return res.json();
+                        else throw new Error("Wystąpił błąd");
+                      })
+                      .then((json) => {
+                        const technicalData = json.results.find(
+                          (data) => data.id === newProd.Dane_techniczne.relation[0].id
+                        ).properties;
+
+                        technicalData.wartosc_drgan_uchwyt =
+                          technicalData.wartosc_drgan_uchwyt.rich_text[0].plain_text;
+                        newProd.technical_data = technicalData;
+                      });
+                    setTimeout(() => {
+                      this.$store.commit("appearHiddenLoader", false);
+                    }, 750);
+
+                    return newProd;
+                    // eslint-disable-next-line no-empty
+                  } catch {}
+                });
+                products = products.filter((product) => product !== undefined);
+
+                category.products = products;
+              });
+
+            return category;
+          });
+
+          setTimeout(() => {
+            this.$store.commit("appearHiddenLoader", false);
+          }, 500);
         })
         .catch((err) => {
+          console.log(err);
           const main = document.querySelector("main");
 
           setTimeout(() => {
@@ -287,10 +375,14 @@ export default {
         });
     },
   },
-  created() {
+  mounted() {
     this.getProducts();
   },
   beforeRouteLeave(_, __, next) {
+    this.productsCategories.forEach((category) => {
+      this.$store.commit("setProdsLocalStorage", category);
+    });
+
     if (this.$store.getters.isPhoneMenuOpen) {
       this.$store.commit("openClosePhoneMenu");
     }

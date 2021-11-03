@@ -1,6 +1,6 @@
 <template>
   <header v-if="type === 'normal'" class="header">
-    <router-link to="/">
+    <router-link to="/" class="w-max ml-1/6 lg:ml-1/4">
       <img
         class="header__logo"
         src="../../../assets/img/logo.png"
@@ -117,7 +117,7 @@ export default {
   }
 
   &__logo {
-    @apply w-36 ml-1/6 lg:ml-1/4 lg:w-auto;
+    @apply w-36 lg:w-auto;
   }
 
   &__menu-list {

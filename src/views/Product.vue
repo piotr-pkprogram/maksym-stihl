@@ -87,8 +87,8 @@ export default {
           this.$store.commit("appearHiddenLoader", false);
         }, 750);
       } else {
-        // await fetch("/api/getCategories.php")
-        await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+        //   await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+        await fetch("/api/getCategories.php")
           .then((res) => {
             if (res.ok) return res.json();
             else throw new Error("Wystąpił błąd");
@@ -106,8 +106,8 @@ export default {
             delete category.Zdjęcie_w_tle;
             this.category = category;
 
-            //   fetch("/api/getProducts.php")
-            fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+            // fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+              fetch("/api/getProducts.php")
               .then((res) => {
                 if (res.ok) return res.json();
                 else throw new Error("Wystąpił błąd");
@@ -142,8 +142,8 @@ export default {
 
                 this.product = product;
 
-                //   fetch("/api/getTechnicalData.php")
-                fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
+                // fetch("http://localhost/maksymstihl.pl/backend/api/getTechnicalData.php")
+                  fetch("/api/getTechnicalData.php")
                   .then((res) => {
                     if (res.ok) return res.json();
                     else throw new Error("Wystąpił błąd");

@@ -281,8 +281,8 @@ export default {
           this.$store.commit("appearHiddenLoader", false);
         }, 750);
       } else {
-        //fetch("/api/getCategories.php")
-        fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+        //   fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+        fetch("/api/getCategories.php")
           .then((res) => {
             if (res.ok) return res.json();
             else throw new Error("Wystąpił błąd");
@@ -309,8 +309,8 @@ export default {
             );
 
             this.category = this.productsCategories.find((c) => c.name == this.title);
-            //   fetch("/api/getProducts.php")
-            fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+            // fetch("http://localhost/maksymstihl.pl/backend/api/getProducts.php")
+            fetch("/api/getProducts.php")
               .then((res) => {
                 if (res.ok) return res.json();
                 else throw new Error("Wystąpił błąd");

@@ -1,5 +1,6 @@
 <template>
-  <div class="category">
+  <catch-all v-if="isNotFound"></catch-all>
+  <div v-else class="category">
     <div class="category__title-container">
       <h1 class="category__title">{{ title }}</h1>
     </div>
@@ -202,15 +203,17 @@
 </template>
 
 <script>
-import BaseFilter from "../components/main-components/Filter.vue";
 import { v4 as uuidv4 } from "uuid";
+import BaseFilter from "../components/main-components/Filter.vue";
+import CatchAll from "./CatchAll.vue";
 import addMetaTags from "./metaFunctions.js";
 
 let IsSetMeta = false;
 
 export default {
   components: {
-    BaseFilter: BaseFilter,
+    BaseFilter,
+    CatchAll,
   },
   data() {
     return {
@@ -225,6 +228,7 @@ export default {
         server: false,
       },
       error_status: 0,
+      isNotFound: false,
     };
   },
   methods: {
@@ -270,6 +274,7 @@ export default {
       if (IsSetMeta) {
         const link = this.$route.params.categoryName;
         this.category = JSON.parse(localStorage.getItem(`/${link}`));
+        this.title = this.category.name;
 
         const products = this.category.products;
         this.products = this.arraySplitting(products, 4);
@@ -375,7 +380,7 @@ export default {
               });
           })
           .catch((err) => {
-            console.log(err);
+            if (this.category != null && this.category != {}) this.isNotFound = true;
             setTimeout(() => {
               this.$store.commit("appearHiddenLoader", false);
               if (!window.navigator.onLine) {
@@ -392,12 +397,6 @@ export default {
     },
   },
   mounted() {
-    let name = this.$route.params.categoryName;
-
-    const arr = name.split("");
-    name = arr.map((el, i) => (i == 0 ? el.toUpperCase() : el));
-
-    this.title = name.join("").replace("-", " ");
     this.getProducts();
   },
   beforeRouteLeave(_, __, next) {

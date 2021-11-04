@@ -19,7 +19,7 @@
             Jesteś ze Skwierzyny lub miekasz blisko niej? Potrzebujesz nowych narzędzi lub
             chcesz naprawić swoje?
           </p>
-          <base-button to="/kontakt.html" classes="orange-btn rounded-2xl"
+          <base-button to="/kontakt" classes="orange-btn rounded-2xl" type="router-link"
             >Zapraszamy do nas,</base-button
           >
           <span class="cta__btn-desc">a napewno się nie zawiedziesz!</span>

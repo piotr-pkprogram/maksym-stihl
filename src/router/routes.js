@@ -12,6 +12,8 @@ const Category = () =>
     import ("../views/Category.vue");
 const Product = () =>
     import ("../views/Product.vue");
+const CatchAll = () =>
+    import ('../views/CatchAll.vue');
 
 const routes = [{
         name: 'start',
@@ -233,6 +235,11 @@ const routes = [{
         name: "produkty",
         path: "/:categoryName/:productName",
         component: Product
+    },
+    {
+        name: 'error',
+        path: '/:catchAll(.*)',
+        component: CatchAll
     }
 
 ];

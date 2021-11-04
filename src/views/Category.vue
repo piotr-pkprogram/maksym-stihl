@@ -1,6 +1,6 @@
 <template>
   <catch-all v-if="isNotFound"></catch-all>
-  <div v-else class="category">
+  <div v-else-if="category" class="category">
     <div class="category__title-container">
       <h1 class="category__title">{{ title }}</h1>
     </div>
@@ -221,7 +221,7 @@ export default {
       moreApear: true,
       title: "",
       startProds: this.products,
-      category: {},
+      category: null,
       products: [],
       error_visable: {
         online: false,
@@ -380,7 +380,7 @@ export default {
               });
           })
           .catch((err) => {
-            if (this.category != null && this.category != {}) this.isNotFound = true;
+            if (this.category === null || this.category === {}) this.isNotFound = true;
             setTimeout(() => {
               this.$store.commit("appearHiddenLoader", false);
               if (!window.navigator.onLine) {

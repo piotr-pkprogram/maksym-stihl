@@ -187,8 +187,8 @@ export default {
   },
   methods: {
     async getProducts() {
-      // await fetch("/api/getCategories.php")
-      await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+        // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
+      await fetch("/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
           else throw new Error("Wystąpił błąd");

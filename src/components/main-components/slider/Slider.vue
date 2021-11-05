@@ -81,6 +81,7 @@
     <span>Nie można wczytać produktów</span>
   </error-box>
   <vueper-slides
+    :touchable="true"
     :infinite="false"
     :visible-slides="3"
     slide-multiple
@@ -174,18 +175,20 @@ export default {
         1453: {
           visibleSlides: 2,
           slideMultiple: 2,
+          touchable: "false",
         },
         1000: {
           visibleSlides: 1,
           slideMultiple: 1,
+          touchable: "true",
         },
       },
     };
   },
   methods: {
     async getProducts() {
-      // await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
-      await fetch("/api/getCategories.php")
+      // await fetch("/api/getCategories.php")
+      await fetch("http://localhost/maksymstihl.pl/backend/api/getCategories.php")
         .then((res) => {
           if (res.ok) return res.json();
           else throw new Error("Wystąpił błąd");
@@ -299,7 +302,10 @@ export default {
   }
 
   &__bullets {
-    @apply static;
+    @apply static max-w-full flex flex-wrap;
+    @media (min-width: 405px) {
+      @apply max-w-none flex-nowrap;
+    }
     @media (min-width: 1115px) {
       @apply hidden;
     }

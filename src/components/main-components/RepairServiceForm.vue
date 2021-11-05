@@ -240,7 +240,7 @@ export default {
 
       emailjs
         .sendForm(
-          "service_h8rzv39",
+          "service_lq3vx5j",
           "template_yzmumq5",
           form,
           "user_lMRCEmHpYEa191SzKn8aZ"
@@ -262,6 +262,7 @@ export default {
             loader.classList.remove("block");
           },
           (err) => {
+            console.log(err);
             let message =
               "Podczas wysyłania wiadomości wystąpił błąd. Prosimy spróbować ponownie.";
 
